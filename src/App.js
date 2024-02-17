@@ -13,7 +13,7 @@ import PasswordResetSuccess from "./pages/ForgotPassword/PasswordResetSuccess";
 import SignUpSuccess from "./pages/EmailVerification/SignUpSuccess";
 import UserProfile from "./pages/UserDetails/UserProfile";
 import EditUserProfile from "./pages/UserDetails/EditUserProfile";
-import HomeLayout from "./components/Layout/HomeLayout";
+import Home from "./components/Layout/Home";
 
 function App() {
   return (
@@ -43,7 +43,7 @@ function App() {
             </ProtectedRoutes>
           }
         />
-        <Route path="/" element={<HomeLayout />} />
+        <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signup-success" element={<SignUpSuccess />} />
         <Route
@@ -71,7 +71,7 @@ export function ProtectedRoutes(props) {
   if (localStorage.getItem("user")) {
     return props.children;
   } else {
-    return <HomeLayout />;
+    return <Navigate to="/" />;
   }
 }
 
