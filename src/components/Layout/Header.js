@@ -4,7 +4,7 @@ import {
   UserOutlined,
   DownOutlined,
   EditOutlined,
-  LogoutOutlined,
+  PoweroffOutlined,
 } from "@ant-design/icons";
 import { Dropdown, message } from "antd";
 import "../../styles/HeaderStyles.css";
@@ -25,9 +25,6 @@ const Header = () => {
     navigate("/");
   };
 
-  const handleMenuClick = (e) => {
-    console.log("click", e);
-  };
   const items = [
     {
       label: <Link to="/user/user-profile">My Profile</Link>,
@@ -54,12 +51,11 @@ const Header = () => {
         </button>
       ),
       key: "3",
-      icon: <LogoutOutlined />,
+      icon: <PoweroffOutlined />, //<LogoutOutlined />,
     },
   ];
   const menuProps = {
     items,
-    onClick: handleMenuClick,
   };
 
   return (
