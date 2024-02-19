@@ -85,7 +85,7 @@ const Header = () => {
             id="navbarToggleExternalContent"
           >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
-              <li className="nav-link ">
+              <li className="nav-link user-home-btn">
                 <Link to="/user">Home</Link>
               </li>
               <li className="nav-item">
