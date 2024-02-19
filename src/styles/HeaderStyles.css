@@ -29,7 +29,7 @@
   padding: 10px;
 }
 
-.navbar .user-home-btn:hover a {
+.navbar .user-home-btn a:hover {
   color: #ffefba;
   border-bottom: 1px solid #ffefba;
 }
