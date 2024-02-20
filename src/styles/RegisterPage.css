@@ -70,6 +70,11 @@
   text-decoration: underline;
 }
 
+.register-form .text {
+  color: #3a3465 !important;
+  text-decoration: underline;
+}
+
 .register-form .btn {
   margin-top: 10px;
   width: 100%;
