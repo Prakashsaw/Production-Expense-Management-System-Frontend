@@ -183,7 +183,7 @@ const Register = () => {
                 disabled={loading}
                 onClick={googleButtonHandler}
               >
-                {loading ? <LoadingOutlined /> : "Login with Google"}
+                {loading ? <LoadingOutlined /> : "SignUp with Google"}
               </button>
             </div>
 
