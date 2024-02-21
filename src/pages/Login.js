@@ -115,7 +115,7 @@ const Login = () => {
               <div className="text">
                 <Link to="/forgot-password">Forgot Password?</Link>
               </div>
-              <div className="pb-0 mt-0 d-flex justify-content-center">
+              <div className="button pb-0 mt-0 d-flex justify-content-center">
                 <button className="btn" disabled={loading}>
                   {loading ? <LoadingOutlined /> : "Login"}
                 </button>
@@ -125,7 +125,13 @@ const Login = () => {
                   Not a user? <Link to="/register">SignUp!</Link>
                 </div>
               </div>
+              <div className="line"></div>
             </Form>
+            <button className="login-with-google-btn">
+              {" "}
+              {/*onClick={loginwithgoogle}*/}
+              {loading ? <LoadingOutlined /> : "Login with Google"}
+            </button>
           </div>
         </div>
       </div>
