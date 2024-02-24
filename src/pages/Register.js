@@ -22,6 +22,25 @@ const Register = () => {
   //from submit
   const submitHandler = async (values) => {
     try {
+      // validate all frontend validation
+      // Email validation
+      if (!values.email.includes("@") || !values.email.includes(".")) {
+        setRegisterError(
+          "Please enter a valid email address. Include '@' and ' . '"
+        );
+        return;
+      }
+      // Password validation
+      if (values.password.length < 8) {
+        setRegisterError("Password must be atleast 8 characters long...!");
+        return;
+      }
+
+      if (values.password !== values.confirmPassword) {
+        setRegisterError("Password and confirm password should be same...!");
+        return;
+      }
+
       setLoading(true);
       await axios.post(`${BASE_URL}/api/v1/users/register`, values);
       setLoading(false);
@@ -100,7 +119,7 @@ const Register = () => {
                 <Input
                   prefix={<MailOutlined />}
                   className="pass-input"
-                  type="email"
+                  type="text"
                   placeholder="Enter your valid email address"
                   style={{
                     height: 40,
@@ -121,12 +140,33 @@ const Register = () => {
                   prefix={<LockOutlined />}
                   className="pass-input"
                   type="password"
-                  placeholder="Please enter your password"
+                  placeholder="Create password"
                   style={{
                     height: 40,
                   }}
                 />
               </Form.Item>
+              <Form.Item
+                label="Confirn Password"
+                name="confirmPassword"
+                rules={[
+                  {
+                    required: true,
+                    message: "Password must be a strong password...!",
+                  },
+                ]}
+              >
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  className="pass-input"
+                  type="password"
+                  placeholder="Re-enter password"
+                  style={{
+                    height: 40,
+                  }}
+                />
+              </Form.Item>
+
               <Form.Item name="remember" valuePropName="checked" noStyle>
                 <Checkbox>
                   I agree to the{" "}
