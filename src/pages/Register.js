@@ -147,7 +147,7 @@ const Register = () => {
                 />
               </Form.Item>
               <Form.Item
-                label="Confirn Password"
+                label="Confirm Password"
                 name="confirmPassword"
                 rules={[
                   {
