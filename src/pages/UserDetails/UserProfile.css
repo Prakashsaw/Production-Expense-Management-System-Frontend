@@ -127,6 +127,12 @@
   color: white;
 }
 
+.change-profile-container .text {
+  color: #3a3465 !important;
+  text-decoration: underline;
+  margin-top: -20px;
+}
+
 @media (max-width: 584px) {
   .change-profile-container {
     max-width: 100%;
