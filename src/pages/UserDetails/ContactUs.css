@@ -126,9 +126,11 @@
   }
 }
 @media (max-width: 820px) {
+  .about {
+    height: 100%;
+  }
   .about-container {
     margin: 40px 0;
-    height: 100%;
   }
   .about-container .about-content {
     flex-direction: column-reverse;
