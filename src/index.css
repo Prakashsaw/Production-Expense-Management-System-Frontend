@@ -65,6 +65,13 @@
   background-color: white;
 }
 
+.search-bar {
+  border: 1px solid rgba(0, 0, 0, 0.677);
+  border-radius: 5px;
+  padding: 2.5px;
+  background-color: white;
+}
+
 .anticon svg {
   font-size: 15px;
   cursor: pointer;

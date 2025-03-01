@@ -14,6 +14,7 @@ import {
   AreaChartOutlined,
   EditOutlined,
   DeleteOutlined,
+  ExportOutlined,
 } from "@ant-design/icons";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
@@ -21,7 +22,12 @@ import moment from "moment";
 import Analytics from "../components/Analytics";
 import { BASE_URL } from "../utils/baseURL";
 import { getResponseError } from "../utils/getResponseError";
+
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
+
 const { RangePicker } = DatePicker;
+const { Search } = Input;
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -232,7 +238,53 @@ const HomePage = () => {
     }
   };
 
-  console.log("trasactionError: ", trasactionError);
+  // Search handler
+  const onSearch = (value) => {
+    if (!value) {
+      getAllTransactions(); // Reset to all filtered data if search is cleared
+      return;
+    }
+
+    const filteredData = allTransection.filter((transaction) =>
+      Object.values(transaction).some((field) =>
+        field?.toString().toLowerCase().includes(value.toLowerCase())
+      )
+    );
+
+    setAllTransection(filteredData);
+  };
+
+  // Export to excel
+  const exportToExcel = () => {
+    setTrasactionError(null);
+    if (allTransection.length === 0) {
+      setTrasactionError("No data available to export.");
+      return;
+    }
+
+    const exportData = allTransection.map((transaction, index) => ({
+      "S.No": index + 1,
+      "Date (yyyy-mm-dd)": moment(transaction.date).format("YYYY-MM-DD"),
+      "Amount (Rs.)": transaction.amount,
+      Type: transaction.type,
+      Category: transaction.category,
+      Reference: transaction.refrence,
+      Description: transaction.description,
+    }));
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Transactions");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const data = new Blob([excelBuffer], { type: "application/octet-stream" });
+
+    const currentDate = moment().format("DD-MM-YYYY");
+    saveAs(data, `Transactions(${currentDate}).xlsx`);
+  };
 
   return (
     <>
@@ -287,6 +339,16 @@ const HomePage = () => {
                 onClick={() => setViewData("analytics")}
               />
             </div>
+            <div className="search-bar">
+              <Search
+                placeholder="search text"
+                allowClear
+                onSearch={onSearch}
+                style={{
+                  width: 180,
+                }}
+              />
+            </div>
             <div>
               <button
                 className="btn btn-primary"
@@ -296,6 +358,14 @@ const HomePage = () => {
                 }}
               >
                 Add New
+              </button>
+            </div>
+            <div>
+              <button
+                className="btn btn-secondary trasctn-exprt-btn"
+                onClick={exportToExcel}
+              >
+                Export to Excel <ExportOutlined />
               </button>
             </div>
           </div>
