@@ -6,7 +6,7 @@ const Footer = () => {
     <>
       <div className="footer bg-dark text-light p-3">
         <h4 className="text-center">
-          All rights reserved &copy; 2024 Prakash & Company Pvt Ltd.
+          All rights reserved &copy; 2025 Prakash & Company Pvt Ltd.
         </h4>
         <p className="text-center mt-3">
           <a

@@ -46,12 +46,10 @@ const Login = () => {
   };
 
   const handleClickLoginWithGoogle = async () => {
-    alert(
-      "Working on Login with Google Authentication. Soon this feature will be available."
-    );
+    window.open(`${BASE_URL}/auth/google`, "_self");
   };
 
-  //prevent for login user
+  //prevent for loggedin user
   useEffect(() => {
     if (localStorage.getItem("user")) {
       navigate("/user");

@@ -18,6 +18,7 @@ import SendOTPAndVerifyPhone from "./pages/OTPPhoneVerification/SendOTPAndVerify
 import OTPVerifiedSuccess from "./pages/OTPEmailVerification/OTPVerifiedSuccess";
 import ChangePassword from "./pages/UserDetails/ChangePassword";
 import ContactUs from "./pages/UserDetails/ContactUs";
+import GoogleAuthSuccess from "./pages/GoogleAuthSuccess";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           element={<EmailVerification />}
         />
         <Route path="/login" element={<Login />} />
+        <Route path="/google-auth-success" element={<GoogleAuthSuccess />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/forgot-email-sent" element={<EmailSent />} />
         <Route

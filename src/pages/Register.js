@@ -62,9 +62,7 @@ const Register = () => {
   };
 
   const handleClickSignUpWithGoogle = async () => {
-    alert(
-      "Working on SignUp with Google Authentication. Soon this feature will be available."
-    );
+    window.open(`${BASE_URL}/auth/google`, "_self");
   };
 
   //prevent for login user
