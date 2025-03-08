@@ -1,4 +1,4 @@
-import { LoadingOutlined, LockOutlined, MailOutlined } from "@ant-design/icons";
+import { LoadingOutlined, MailOutlined } from "@ant-design/icons";
 import { Alert, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import "./OTPVerificationForm.css";
 import { BASE_URL } from "../../utils/baseURL";
 import axios from "axios";
 import { getResponseError } from "../../utils/getResponseError";
+import OTPInput from "../../components/OTPInput";
 
 const SendOTPAndVerifyEmail = () => {
   const [loading, setLoading] = useState(false);
@@ -37,7 +38,7 @@ const SendOTPAndVerifyEmail = () => {
     try {
       setLoading(true);
       await axios.post(
-        `${BASE_URL}/api/v1/users/verify-email-otp/${response._id}`,
+        `${BASE_URL}/api/v1/users/verify-email-otp/${response.expenseAppUserId}`,
         values
       );
       setLoading(false);
@@ -101,13 +102,17 @@ const SendOTPAndVerifyEmail = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   label="OTP"
                   name="otp"
                   rules={[
                     {
                       required: true,
                       message: "Please enter your OTP...!",
+                    },
+                    {
+                      len: 6,
+                      message: "OTP must be 6 digits!",
                     },
                   ]}
                 >
@@ -119,6 +124,25 @@ const SendOTPAndVerifyEmail = () => {
                     style={{
                       height: 40,
                     }}
+                    maxLength={6} // Restrict to 6 digits
+                  />
+                </Form.Item> */}
+
+                <Form.Item
+                  label="OTP"
+                  name="otp"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your OTP...!",
+                    },
+                  ]}
+                >
+                  <OTPInput
+                    otp={response.otp || []}
+                    onChange={(newOtp) =>
+                      setResponse({ ...response, otp: newOtp })
+                    }
                   />
                 </Form.Item>
                 {sendingOTPError && (
@@ -129,7 +153,6 @@ const SendOTPAndVerifyEmail = () => {
                     style={{ marginBottom: 15 }}
                   />
                 )}
-
                 <div className="loading-text pb-2 mt-2 d-flex justify-content-center">
                   <button className="btn" disabled={loading}>
                     {loading ? <LoadingOutlined /> : "Submit OTP"}
