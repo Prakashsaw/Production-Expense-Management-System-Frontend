@@ -54,7 +54,7 @@ const ForgotPassword = () => {
               onFinish={submitHandler}
               autoComplete="off"
             >
-              <h3>Reset Password?</h3>
+              <h3>Forgot Password?</h3>
               <p>
                 Please enter your email address you use to sign in. You will
                 receive a link to create a new password via email.
