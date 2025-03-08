@@ -1,4 +1,4 @@
-import { LoadingOutlined, LockOutlined, PhoneFilled } from "@ant-design/icons";
+import { LoadingOutlined, PhoneFilled } from "@ant-design/icons";
 import { Alert, Form, Input, message } from "antd";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import "../OTPEmailVerification/OTPVerificationForm.css";
 import { BASE_URL } from "../../utils/baseURL";
 import axios from "axios";
 import { getResponseError } from "../../utils/getResponseError";
+import OTPInput from "../../components/OTPInput";
 
 const SendOTPAndVerifyPhone = () => {
   const [loading, setLoading] = useState(false);
@@ -63,7 +64,7 @@ const SendOTPAndVerifyPhone = () => {
         <div className="otp-verification-page ">
           {/* {loading && <Spinner />} */}
           <div className="col-md-5 otp-verification-form">
-            {response && response.phoneNumber ? (
+            {response && response.success ? (
               <Form
                 layout="vertical"
                 initialValues={{
@@ -73,7 +74,7 @@ const SendOTPAndVerifyPhone = () => {
                 autoComplete="off"
               >
                 <h3>Verify OTP?</h3>
-                <p>Please enter OTP which you will received on your phone.</p>
+                <p>Please enter OTP which you have received on your phone.</p>
 
                 <Form.Item
                   label="Phone Number"
@@ -98,7 +99,7 @@ const SendOTPAndVerifyPhone = () => {
                   />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   label="OTP"
                   name="otp"
                   rules={[
@@ -116,6 +117,24 @@ const SendOTPAndVerifyPhone = () => {
                     style={{
                       height: 40,
                     }}
+                  />
+                </Form.Item> */}
+
+                <Form.Item
+                  label="OTP"
+                  name="otp"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please enter your OTP...!",
+                    },
+                  ]}
+                >
+                  <OTPInput
+                    otp={response.otp || []}
+                    onChange={(newOtp) =>
+                      setResponse({ ...response, otp: newOtp })
+                    }
                   />
                 </Form.Item>
                 {sendingOTPError && (
@@ -151,7 +170,7 @@ const SendOTPAndVerifyPhone = () => {
               >
                 <h3>Send OTP?</h3>
                 <p>
-                  Please enter your phone number. You will receive a OTP to
+                  Please enter your phone number. You will receive an OTP to
                   verify your phone.
                 </p>
 
