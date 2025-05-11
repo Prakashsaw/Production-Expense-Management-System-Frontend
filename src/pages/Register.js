@@ -31,6 +31,30 @@ const Register = () => {
         );
         return;
       }
+      // Phone number is optional here but if provided then if firt digit is 0 then it should be 11 digits long and if not then it should be 10 digits long only
+      if (values.phoneNumber) {
+        if (values.phoneNumber.length < 10) {
+          setRegisterError("Phone number must be atleast 10 digits long...!");
+          return;
+        }
+        if (values.phoneNumber[0] === "0" && values.phoneNumber.length !== 11) {
+          setRegisterError(
+            "Phone number must be 11 digits long if it starts with 0...!"
+          );
+          return;
+        }
+        if (values.phoneNumber[0] !== "0" && values.phoneNumber.length !== 10) {
+          setRegisterError(
+            "Phone number must be 10 digits long if it does not start with 0...!"
+          );
+          return;
+        }
+        if (isNaN(values.phoneNumber)) {
+          setRegisterError("Phone number must be a number...!");
+          return;
+        }
+      }
+      
       // Password validation
       if (values.password.length < 8) {
         setRegisterError("Password must be atleast 8 characters long...!");
@@ -128,7 +152,7 @@ const Register = () => {
                 />
               </Form.Item>
               <Form.Item
-                label="Phone Number (Optional)"
+                label="Phone Number"
                 name="phoneNumber"
                 rules={[
                   {
