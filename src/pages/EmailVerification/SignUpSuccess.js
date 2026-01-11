@@ -1,43 +1,44 @@
 import { Alert, Button } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Header1 from "../../components/Layout/Header1";
+import Footer from "../../components/Layout/Footer";
 import "./EmailVerification.css";
+
 const SignUpSuccess = () => {
   const navigate = useNavigate();
 
   const onClickHandler = async () => {
     navigate("/login");
   };
+  
   return (
     <>
-      <div className="content container mt-4 layout">
-        <div className="email-verify-page ">
-          <Alert
-            message="Successfully Registered."
-            description="You successfully registered to Expense Management System. Please check your email for email verification link and verify your email."
-            type="success"
-            showIcon
-            style={{
-              margin: 50,
-              marginLeft: 200,
-              marginRight: 200,
-              padding: 50,
-              borderRadius: 10,
-              backgroundColor: "#f6ffed",
-            }}
-          />
-          <Button
-            type="primary"
-            style={{
-              marginLeft: 0,
-              borderRadius: 3,
-            }}
-            onClick={onClickHandler}
-          >
-            Back to Login Page{" "}
-          </Button>
+      <Header1 />
+      <div className="auth-page-wrapper">
+        <div className="email-verify-content">
+          <div className="email-verify-page">
+            <div className="email-verify-form">
+              <Alert
+                message="Successfully Registered"
+                description="You successfully registered to Expense Management System. Please check your email for email verification link and verify your email."
+                type="success"
+                showIcon
+                className="success-alert"
+              />
+              <Button
+                type="primary"
+                className="success-btn"
+                onClick={onClickHandler}
+                block
+              >
+                Back to Login Page
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

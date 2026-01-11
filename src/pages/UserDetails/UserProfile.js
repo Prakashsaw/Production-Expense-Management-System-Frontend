@@ -44,7 +44,6 @@ const UserProfile = () => {
           }
         );
         setLoading(false);
-        console.log("req.user : ", response.data.user);
         setUserData(response.data.user);
         message.success("User profile details fetched Successfully.", {
           position: "top",
@@ -62,7 +61,6 @@ const UserProfile = () => {
     fetchUserDetails();
   }, []);
 
-  console.log("UserData: ", userData);
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // const user = JSON.parse(localStorage.getItem("user"));
@@ -106,12 +104,13 @@ const UserProfile = () => {
   return (
     <>
       <Header />
-      <div className="mt-2">
-        <div className="profile-container">
-          <div className="change-profile-container">
-            {loading && <Spinner />}
-            <div className="title">Update User Profile</div>
-            <div className="content">
+      <div className="auth-page-wrapper">
+        <div className="profile-content">
+          <div className="profile-page">
+            <div className="profile-form">
+              {loading && <Spinner />}
+              <h2 className="header-name">Update User Profile</h2>
+              <div className="content">
               <form onSubmit={handleFormSubmit}>
                 <div className="user-details">
                   <div className="input-box">
@@ -237,6 +236,7 @@ const UserProfile = () => {
                   </div>
                 </div>
               </form>
+              </div>
             </div>
           </div>
         </div>

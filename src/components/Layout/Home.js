@@ -22,14 +22,11 @@ const Home = () => {
             <div className="hero">
               <h2>Welcome to Expense Management System</h2>
               <p>
-                Welcone to the{" "}
-                <span className="app-name">Expense management System </span>App.
-                This app helps you to manage your expenses and income. You can
-                track your expenses and income, add new expenses and income,
-                update and delete expenses and income. You can also see the
-                statistics of your expenses and income. Visualize your expenses
-                in a chart and graph. By using this app, you can manage your
-                expenses and income and save your money from unwanted expenses.
+                Welcome to the{" "}
+                <span className="app-name">Expense Management System</span> App.
+                Take control of your finances with our powerful and intuitive expense tracking platform. 
+                Track your income and expenses, analyze spending patterns with beautiful visualizations, 
+                and make smarter financial decisions. Manage your money efficiently and achieve your financial goals.
               </p>
               <div className="buttons">
                 <Link to="/login" className="join">

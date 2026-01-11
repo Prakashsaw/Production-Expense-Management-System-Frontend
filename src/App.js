@@ -18,6 +18,7 @@ import SendOTPAndVerifyPhone from "./pages/OTPPhoneVerification/SendOTPAndVerify
 import OTPVerifiedSuccess from "./pages/OTPEmailVerification/OTPVerifiedSuccess";
 import ChangePassword from "./pages/UserDetails/ChangePassword";
 import ContactUs from "./pages/UserDetails/ContactUs";
+import AboutUs from "./pages/UserDetails/AboutUs";
 import GoogleAuthSuccess from "./pages/GoogleAuthSuccess";
 
 function App() {
@@ -81,6 +82,7 @@ function App() {
         />
         <Route path="/otp-verified-success" element={<OTPVerifiedSuccess />} />
         <Route path="/contact-us" element={<ContactUs />} />
+        <Route path="/about-us" element={<AboutUs />} />
         {/* if path is not correct then navigate to page not found page */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>

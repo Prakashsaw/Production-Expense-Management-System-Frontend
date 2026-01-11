@@ -1,14 +1,20 @@
 import React from "react";
 import Footer from "./Footer";
 import Header from "./Header";
+import "./Layout.css";
 
-const Layout = ({ children }) => {
+/**
+ * Main layout component for authenticated pages
+ */
+const Layout = ({ children, className = "" }) => {
   return (
-    <>
+    <div className={`layout-wrapper ${className}`}>
       <Header />
-      <div className="content container mt-4 layout">{children}</div>
+      <main className="layout-content">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

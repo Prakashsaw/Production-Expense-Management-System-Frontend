@@ -1,14 +1,39 @@
 import React from "react";
+import { Spin } from "antd";
+import { LoadingOutlined } from "@ant-design/icons";
+import "./Spinner.css";
 
-const Spinner = () => {
-  return (
-    <>
-      <div className="d-flex justify-content-center mt-5">
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+/**
+ * Modern loading spinner component
+ */
+const Spinner = ({ 
+  size = "large", 
+  tip = "Loading...", 
+  fullScreen = false,
+  className = "" 
+}) => {
+  const antIcon = (
+    <LoadingOutlined
+      style={{
+        fontSize: size === "large" ? 48 : size === "small" ? 24 : 32,
+        color: "var(--primary-color)",
+      }}
+      spin
+    />
+  );
+
+  if (fullScreen) {
+    return (
+      <div className={`spinner-fullscreen ${className}`}>
+        <Spin indicator={antIcon} tip={tip} size={size} />
       </div>
-    </>
+    );
+  }
+
+  return (
+    <div className={`spinner-container ${className}`}>
+      <Spin indicator={antIcon} tip={tip} size={size} />
+    </div>
   );
 };
 

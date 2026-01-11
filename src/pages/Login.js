@@ -32,8 +32,7 @@ const Login = () => {
         values
       );
       setLoading(false);
-      message.success("login success");
-      console.log("user", JSON.stringify({ ...data.user }));
+      message.success("Login successful");
       localStorage.setItem("user", JSON.stringify({ ...data.user }));
       navigate("/user");
     } catch (error) {
@@ -56,9 +55,9 @@ const Login = () => {
     }
   }, [navigate]);
   return (
-    <>
+    <div className="auth-page-wrapper">
       <Header1 />
-      <div className="login-content  mt-4 layout">
+      <div className="login-content">
         <div className="login-page">
           <div className="col-md-5 login-form">
             <Form
@@ -146,7 +145,7 @@ const Login = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

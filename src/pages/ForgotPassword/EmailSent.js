@@ -10,32 +10,27 @@ const EmailSent = () => {
   };
   return (
     <>
-      <div className="content container mt-4 layout">
-        <div className="forgot-password-page ">
-          <Alert
-            message="Email sent. Check your mail."
-            description="An email has been sent to your email with the reset link to reset your password."
-            type="success"
-            showIcon
-            style={{
-              margin: 50,
-              marginLeft: 200,
-              marginRight: 200,
-              padding: 50,
-              borderRadius: 10,
-              backgroundColor: "#f6ffed",
-            }}
-          />
-          <Button
-            type="primary"
-            style={{
-              marginLeft: 0,
-              borderRadius: 3,
-            }}
-            onClick={onClickHandler}
-          >
-            Back to Login Page{" "}
-          </Button>
+      <div className="auth-page-wrapper">
+        <div className="forgot-password-content">
+          <div className="forgot-password-page">
+            <div className="forgot-password-form">
+              <Alert
+                message="Email sent. Check your mail."
+                description="An email has been sent to your email with the reset link to reset your password."
+                type="success"
+                showIcon
+                className="success-alert"
+              />
+              <Button
+                type="primary"
+                className="success-btn"
+                onClick={onClickHandler}
+                block
+              >
+                Back to Login Page
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </>

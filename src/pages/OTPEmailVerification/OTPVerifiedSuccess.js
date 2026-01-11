@@ -2,6 +2,9 @@ import { Alert, Button } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import "./OTPVerifiedSuccess.css";
+import Header1 from "../../components/Layout/Header1";
+import Footer from "../../components/Layout/Footer";
+
 const OTPVerifiedSuccess = () => {
   const navigate = useNavigate();
 
@@ -10,34 +13,31 @@ const OTPVerifiedSuccess = () => {
   };
   return (
     <>
-      <div className="content container mt-4 layout">
-        <div className="otp-verify-page ">
-          <Alert
-            message="OTP Verified successfully."
-            description="You OTP has been verified successfully."
-            type="success"
-            showIcon
-            style={{
-              margin: 50,
-              marginLeft: 200,
-              marginRight: 200,
-              padding: 50,
-              borderRadius: 10,
-              backgroundColor: "#f6ffed",
-            }}
-          />
-          <Button
-            type="primary"
-            style={{
-              marginLeft: 0,
-              borderRadius: 3,
-            }}
-            onClick={onClickHandler}
-          >
-            Back to Login Page{" "}
-          </Button>
+      <Header1 />
+      <div className="auth-page-wrapper">
+        <div className="otp-content">
+          <div className="otp-verification-page">
+            <div className="otp-verification-form">
+              <Alert
+                message="OTP Verified Successfully"
+                description="Your OTP has been verified successfully. You can now proceed to login."
+                type="success"
+                showIcon
+                className="success-alert"
+              />
+              <Button
+                type="primary"
+                className="success-btn"
+                onClick={onClickHandler}
+                block
+              >
+                Back to Login Page
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

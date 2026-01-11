@@ -42,10 +42,11 @@ const ForgotPassword = () => {
   return (
     <>
       <Header1 />
-      <div className="forgot-password-content mt-4 layout">
-        <div className="forgot-password-page ">
-          {loading && <Spinner />}
-          <div className="col-md-5 forgot-password-form">
+      <div className="auth-page-wrapper">
+        <div className="forgot-password-content">
+          <div className="forgot-password-page">
+            {loading && <Spinner />}
+            <div className="forgot-password-form">
             <Form
               layout="vertical"
               initialValues={{
@@ -54,8 +55,8 @@ const ForgotPassword = () => {
               onFinish={submitHandler}
               autoComplete="off"
             >
-              <h3>Forgot Password?</h3>
-              <p>
+              <h2 className="header-name">Forgot Password?</h2>
+              <p className="forgot-password-description">
                 Please enter your email address you use to sign in. You will
                 receive a link to create a new password via email.
               </p>
@@ -99,6 +100,7 @@ const ForgotPassword = () => {
                 <Link to="/login">Login!</Link>
               </div>
             </Form>
+            </div>
           </div>
         </div>
       </div>

@@ -6,13 +6,13 @@ const Footer = () => {
     <>
       <div className="footer bg-dark text-light p-3">
         <h4 className="text-center">
-          All rights reserved &copy; 2025 Prakash & Company Pvt Ltd.
+          All rights reserved &copy; 2023-2026 Prakash & Company Pvt Ltd.
         </h4>
         <p className="text-center mt-3">
           <a
             target="_blank"
             rel="noopener noreferrer"
-            href="https://prakashsawportfolio.netlify.app/"
+            href="https://prakashsaw.netlify.app/"
           >
             About
           </a>

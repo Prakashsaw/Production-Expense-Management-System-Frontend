@@ -7,11 +7,33 @@ import { BASE_URL } from "../../utils/baseURL";
 import axios from "axios";
 import { getResponseError } from "../../utils/getResponseError";
 import OTPInput from "../../components/OTPInput";
+import Header1 from "../../components/Layout/Header1";
+import Footer from "../../components/Layout/Footer";
+
+// OTP Input Wrapper to integrate with Ant Design Form
+const OTPInputWrapper = ({ value, onChange }) => {
+  const otpArray = typeof value === 'string' ? value.split('') : (value || []);
+  
+  const handleChange = (newOtp) => {
+    const otpString = typeof newOtp === 'string' ? newOtp : newOtp.join('');
+    if (onChange) {
+      onChange(otpString);
+    }
+  };
+  
+  return (
+    <OTPInput
+      otp={otpArray}
+      onChange={handleChange}
+    />
+  );
+};
 
 const SendOTPAndVerifyPhone = () => {
   const [loading, setLoading] = useState(false);
   const [sendingOTPError, setSendingOTPError] = useState(null);
   const [response, setResponse] = useState([]);
+  const [verifyForm] = Form.useForm();
   const navigate = useNavigate();
 
   const submitHandlerForSendOTP = async (values) => {
@@ -60,21 +82,24 @@ const SendOTPAndVerifyPhone = () => {
 
   return (
     <>
-      <div className="send-otp-content mt-5 layout">
-        <div className="otp-verification-page ">
-          {/* {loading && <Spinner />} */}
-          <div className="col-md-5 otp-verification-form">
+      <Header1 />
+      <div className="auth-page-wrapper">
+        <div className="otp-content">
+          <div className="otp-verification-page">
+            <div className="otp-verification-form">
             {response && response.success ? (
               <Form
+                form={verifyForm}
                 layout="vertical"
                 initialValues={{
                   remember: true,
+                  phoneNumber: response.phoneNumber,
                 }}
                 onFinish={submitHandlerForVerifyOTP}
                 autoComplete="off"
               >
-                <h3>Verify OTP?</h3>
-                <p>Please enter OTP which you have received on your phone.</p>
+                <h2 className="header-name">Verify OTP</h2>
+                <p className="otp-description">Please enter OTP which you have received on your phone.</p>
 
                 <Form.Item
                   label="Phone Number"
@@ -85,16 +110,12 @@ const SendOTPAndVerifyPhone = () => {
                       message: "Please enter your phone number...!",
                     },
                   ]}
-                  value={response.phoneNumber}
                 >
                   <Input
                     prefix={<PhoneFilled />}
                     className="pass-input"
                     type="number"
                     placeholder="Phone Number"
-                    style={{
-                      height: 40,
-                    }}
                     disabled={true}
                   />
                 </Form.Item>
@@ -128,14 +149,13 @@ const SendOTPAndVerifyPhone = () => {
                       required: true,
                       message: "Please enter your OTP...!",
                     },
+                    {
+                      len: 6,
+                      message: "OTP must be 6 digits!",
+                    },
                   ]}
                 >
-                  <OTPInput
-                    otp={response.otp || []}
-                    onChange={(newOtp) =>
-                      setResponse({ ...response, otp: newOtp })
-                    }
-                  />
+                  <OTPInputWrapper />
                 </Form.Item>
                 {sendingOTPError && (
                   <Alert
@@ -168,8 +188,8 @@ const SendOTPAndVerifyPhone = () => {
                 onFinish={submitHandlerForSendOTP}
                 autoComplete="off"
               >
-                <h3>Send OTP?</h3>
-                <p>
+                <h2 className="header-name">Send OTP</h2>
+                <p className="otp-description">
                   Please enter your phone number. You will receive an OTP to
                   verify your phone.
                 </p>
@@ -214,9 +234,11 @@ const SendOTPAndVerifyPhone = () => {
                 </div>
               </Form>
             )}
+            </div>
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

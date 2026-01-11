@@ -30,26 +30,29 @@ const OTPInput = ({ otp, onChange }) => {
   };
 
   return (
-    <Row gutter={8} justify="center">
-      {Array.from({ length: 6 }).map((_, index) => (
-        <Col key={index}>
-          <Input
-            ref={(el) => (inputRefs.current[index] = el)}
-            maxLength={1}
-            value={otp[index] || ""}
-            onChange={(e) => handleChange(e, index)}
-            onKeyDown={(e) => handleKeyDown(e, index)}
-            style={{
-              width: 40,
-              height: 40,
-              textAlign: "center",
-              fontSize: 18,
-              margin: "0 5px",
-            }}
-          />
-        </Col>
-      ))}
-    </Row>
+    <div className="otp-input-container">
+      <Row gutter={8} justify="center" wrap={false}>
+        {Array.from({ length: 6 }).map((_, index) => (
+          <Col key={index} flex="none">
+            <Input
+              ref={(el) => (inputRefs.current[index] = el)}
+              maxLength={1}
+              value={otp[index] || ""}
+              onChange={(e) => handleChange(e, index)}
+              onKeyDown={(e) => handleKeyDown(e, index)}
+              className="otp-single-input"
+              style={{
+                width: 40,
+                height: 40,
+                textAlign: "center",
+                fontSize: 18,
+                margin: 0,
+              }}
+            />
+          </Col>
+        ))}
+      </Row>
+    </div>
   );
 };
 

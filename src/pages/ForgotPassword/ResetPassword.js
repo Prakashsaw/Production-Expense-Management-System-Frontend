@@ -49,10 +49,11 @@ const ResetPassword = () => {
   return (
     <>
       <Header1 />
-      <div className="forgot-password-content mt-4 layout">
-        <div className="forgot-password-page ">
-          {loading && <Spinner />}
-          <div className="col-md-5 forgot-password-form">
+      <div className="auth-page-wrapper">
+        <div className="forgot-password-content">
+          <div className="forgot-password-page">
+            {loading && <Spinner />}
+            <div className="forgot-password-form">
             <Form
               layout="vertical"
               initialValues={{
@@ -61,8 +62,8 @@ const ResetPassword = () => {
               onFinish={submitHandler}
               autoComplete="off"
             >
-              <h3>Reset Password</h3>
-              <p>
+              <h2 className="header-name">Reset Password</h2>
+              <p className="forgot-password-description">
                 Please enter your new password below.<br></br> Fields marked
                 with (*) are required.
               </p>
@@ -122,6 +123,7 @@ const ResetPassword = () => {
                 </button>
               </div>
             </Form>
+            </div>
           </div>
         </div>
       </div>

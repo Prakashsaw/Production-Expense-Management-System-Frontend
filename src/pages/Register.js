@@ -96,9 +96,9 @@ const Register = () => {
     }
   }, [navigate]);
   return (
-    <>
+    <div className="auth-page-wrapper">
       <Header1 />
-      <div className="register-content mt-4 layout">
+      <div className="register-content">
         <div className="register-page">
           <div className="col-md-5 register-form">
             <Form
@@ -268,7 +268,7 @@ const Register = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

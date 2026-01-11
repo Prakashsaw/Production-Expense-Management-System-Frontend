@@ -71,9 +71,10 @@ const ChangePassword = () => {
   return (
     <>
       <Header />
-      <div className="password-change-content  mt-4 layout">
-        <div className="password-change-page">
-          <div className="col-md-5 password-change-form">
+      <div className="auth-page-wrapper">
+        <div className="password-change-content">
+          <div className="password-change-page">
+            <div className="password-change-form">
             <Form
               layout="vertical"
               initialValues={{
@@ -82,7 +83,7 @@ const ChangePassword = () => {
               onFinish={submitHandler}
               autoComplete="off"
             >
-              <h2 className="header-name">Change Password ?</h2>
+              <h2 className="header-name">Change Password</h2>
 
               <Form.Item
                 label="Old Password"
@@ -174,6 +175,7 @@ const ChangePassword = () => {
                 </div>
               </div>
             </Form>
+            </div>
           </div>
         </div>
       </div>
