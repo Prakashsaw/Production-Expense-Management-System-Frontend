@@ -155,6 +155,16 @@ html {
   box-shadow: var(--shadow-md);
   padding: var(--spacing-lg);
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.transaction-page .content .ant-table-wrapper {
+  overflow-x: auto;
+  min-width: 100%;
+}
+
+.transaction-page .content .ant-table {
+  min-width: 800px;
 }
 
 @media screen and (max-width: 1200px) {

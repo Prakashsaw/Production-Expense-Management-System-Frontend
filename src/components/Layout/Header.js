@@ -6,7 +6,7 @@ import {
   EditOutlined,
   PoweroffOutlined,
 } from "@ant-design/icons";
-import { Dropdown, message } from "antd";
+import { Dropdown, message, Button } from "antd";
 import "../../styles/HeaderStyles.css";
 import logo from "../../../src/Images/logo.png";
 const Header = () => {
@@ -82,8 +82,12 @@ const Header = () => {
             id="navbarToggleExternalContent"
           >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
-              <li className="nav-link user-home-btn">
-                <Link to="/user">Home</Link>
+              <li className="nav-item">
+                <h6 className="nav-link">
+                  <Button className="nav-item home-btn">
+                    <Link to="/user" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
+                  </Button>
+                </h6>
               </li>
               <li className="nav-item">
                 {" "}

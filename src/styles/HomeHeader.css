@@ -74,6 +74,34 @@
   margin-right: var(--spacing-xl);
 }
 
+.navbar .nav-link .home-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-white);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.navbar .nav-link .home-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar .nav-link .home-btn a {
+  color: var(--text-white);
+  text-decoration: none;
+}
+
+.navbar .nav-link .home-btn:hover a {
+  color: var(--text-white);
+}
+
 .navbar .nav-link .login-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -222,16 +250,13 @@
     margin-right: var(--spacing-sm);
   }
 
+  .navbar .nav-link .home-btn,
   .navbar .nav-link .login-btn,
   .navbar .nav-link .register-btn,
   .navbar .nav-link .admin-request-btn,
   .navbar .nav-link .admin-dashboard-btn {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 0.9rem;
-  }
-
-  .navbar .user-home-btn a {
-    padding: var(--spacing-xs) var(--spacing-sm);
   }
 }
 

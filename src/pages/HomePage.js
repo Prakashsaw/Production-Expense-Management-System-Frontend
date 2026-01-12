@@ -263,6 +263,23 @@ const HomePage = () => {
     },
   ], [handleDelete, setEditable, setShowModal]);
 
+  // Update form values when editable changes
+  useEffect(() => {
+    if (showModal && editable) {
+      // Format date for input field (YYYY-MM-DD)
+      const formattedDate = editable.date 
+        ? moment(editable.date).format('YYYY-MM-DD')
+        : '';
+      
+      form.setFieldsValue({
+        ...editable,
+        date: formattedDate,
+      });
+    } else if (showModal && !editable) {
+      form.resetFields();
+    }
+  }, [editable, showModal, form]);
+
   // Form handling
   const handleSubmit = useCallback(
     async (values) => {
@@ -495,7 +512,6 @@ const HomePage = () => {
               form={form}
               layout="vertical"
               onFinish={handleSubmit}
-              initialValues={editable}
             >
               <Form.Item 
                 label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Amount</span>} 

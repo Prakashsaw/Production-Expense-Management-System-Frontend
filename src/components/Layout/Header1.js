@@ -42,8 +42,12 @@ const Header1 = () => {
             id="navbarToggleExternalContent"
           >
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
-              <li className="nav-link user-home-btn ">
-                <Link to="/">Home</Link>
+              <li className="nav-item">
+                <h6 className="nav-link">
+                  <Button className="nav-item home-btn">
+                    <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
+                  </Button>
+                </h6>
               </li>
               {!isLoggedIn && (
                 <>
