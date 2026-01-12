@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import "../../styles/HomeHeader.css";
@@ -6,10 +6,16 @@ import logo from "../../../src/Images/logo.png";
 
 const Header1 = () => {
   const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   //prevent for loggedIn user
   useEffect(() => {
-    if (localStorage.getItem("user")) {
+    const user = localStorage.getItem("user");
+    if (user) {
+      setIsLoggedIn(true);
       navigate("/user");
+    } else {
+      setIsLoggedIn(false);
     }
   }, [navigate]);
   return (
@@ -39,6 +45,24 @@ const Header1 = () => {
               <li className="nav-link user-home-btn ">
                 <Link to="/">Home</Link>
               </li>
+              {!isLoggedIn && (
+                <>
+                  <li className="nav-item admin-buttons-group">
+                    <h6 className="nav-link">
+                      <Button className="nav-item admin-request-btn">
+                        <Link to="/admin/request-access" style={{ color: 'inherit', textDecoration: 'none' }}>Request Admin Access</Link>
+                      </Button>
+                    </h6>
+                  </li>
+                  <li className="nav-item admin-buttons-group">
+                    <h6 className="nav-link">
+                      <Button className="nav-item admin-dashboard-btn">
+                        <Link to="/admin/login" style={{ color: 'inherit', textDecoration: 'none' }}>Admin Dashboard</Link>
+                      </Button>
+                    </h6>
+                  </li>
+                </>
+              )}
               <li className="nav-item">
                 {" "}
                 <h6 className="nav-link ">

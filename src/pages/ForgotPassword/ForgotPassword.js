@@ -73,12 +73,10 @@ const ForgotPassword = () => {
               >
                 <Input
                   prefix={<MailOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="text"
                   placeholder="Email"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               {forgotPasswordError && (

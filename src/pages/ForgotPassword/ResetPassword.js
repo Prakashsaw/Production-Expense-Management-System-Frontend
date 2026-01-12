@@ -80,12 +80,10 @@ const ResetPassword = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="New Password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -100,12 +98,10 @@ const ResetPassword = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Re-enter New password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               {resetPasswordError && (

@@ -82,12 +82,10 @@ const Login = () => {
               >
                 <Input
                   prefix={<MailOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="text"
                   placeholder="Please enter your valid email address"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -102,12 +100,10 @@ const Login = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Please enter your password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
 

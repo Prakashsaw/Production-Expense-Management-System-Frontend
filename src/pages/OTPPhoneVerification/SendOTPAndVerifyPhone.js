@@ -113,10 +113,11 @@ const SendOTPAndVerifyPhone = () => {
                 >
                   <Input
                     prefix={<PhoneFilled />}
-                    className="pass-input"
+                    className="form-input"
                     type="number"
                     placeholder="Phone Number"
                     disabled={true}
+                    size="large"
                   />
                 </Form.Item>
 
@@ -206,12 +207,10 @@ const SendOTPAndVerifyPhone = () => {
                 >
                   <Input
                     prefix={<PhoneFilled />}
-                    className="pass-input"
+                    className="form-input"
                     type="number"
                     placeholder="Phone Number"
-                    style={{
-                      height: 40,
-                    }}
+                    size="large"
                   />
                 </Form.Item>
 

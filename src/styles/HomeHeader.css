@@ -7,6 +7,10 @@
   transition: all var(--transition-base);
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
 
 .navbar .navbar-brand {
@@ -60,6 +64,16 @@
   margin-right: var(--spacing-md);
 }
 
+/* Match gap between admin buttons to Login/Sign Up spacing */
+.navbar .nav-item.admin-buttons-group {
+  margin-right: var(--spacing-md);
+}
+
+/* Increase gap between Admin Dashboard and Login to visually separate admin buttons from app buttons */
+.navbar .nav-item.admin-buttons-group:last-of-type {
+  margin-right: var(--spacing-xl);
+}
+
 .navbar .nav-link .login-btn {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -96,6 +110,63 @@
   background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
+}
+
+.navbar .nav-link .admin-request-btn {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: var(--secondary-color);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-weight: 500;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.navbar .nav-link .admin-request-btn:hover {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.5);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar .nav-link .admin-request-btn a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.navbar .nav-link .admin-request-btn:hover a {
+  color: var(--secondary-dark);
+}
+
+.navbar .nav-link .admin-dashboard-btn {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.2) 0%, rgba(124, 58, 237, 0.2) 100%);
+  border: 1px solid rgba(139, 92, 246, 0.4);
+  color: #a78bfa;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-weight: 600;
+  transition: all var(--transition-base);
+  text-decoration: none;
+  display: inline-block;
+  box-shadow: var(--shadow-sm);
+}
+
+.navbar .nav-link .admin-dashboard-btn:hover {
+  background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%);
+  border-color: rgba(139, 92, 246, 0.6);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.navbar .nav-link .admin-dashboard-btn a {
+  color: #a78bfa;
+  text-decoration: none;
+}
+
+.navbar .nav-link .admin-dashboard-btn:hover a {
+  color: #8b5cf6;
 }
 
 .navbar .user-home-btn {
@@ -152,7 +223,9 @@
   }
 
   .navbar .nav-link .login-btn,
-  .navbar .nav-link .register-btn {
+  .navbar .nav-link .register-btn,
+  .navbar .nav-link .admin-request-btn,
+  .navbar .nav-link .admin-dashboard-btn {
     padding: var(--spacing-xs) var(--spacing-sm);
     font-size: 0.9rem;
   }

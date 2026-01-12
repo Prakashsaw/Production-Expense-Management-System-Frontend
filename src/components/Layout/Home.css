@@ -1,9 +1,11 @@
 .home {
   min-height: 100vh;
   width: 100%;
+  max-width: 100vw;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
   position: relative;
   overflow: hidden;
+  overflow-x: hidden;
 }
 
 .home::before {
@@ -35,10 +37,12 @@
   min-height: 90vh;
   padding: var(--spacing-2xl) var(--spacing-lg);
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   position: relative;
   z-index: 1;
   gap: var(--spacing-2xl);
+  box-sizing: border-box;
 }
 
 .hero-section .hero {

@@ -97,12 +97,10 @@ const ChangePassword = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Enter your old password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -118,12 +116,10 @@ const ChangePassword = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Create your new password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
 
@@ -139,12 +135,10 @@ const ChangePassword = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Re enter your new password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
 

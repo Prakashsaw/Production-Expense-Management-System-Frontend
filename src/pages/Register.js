@@ -123,12 +123,10 @@ const Register = () => {
               >
                 <Input
                   prefix={<UserOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="text"
                   placeholder="Please enter your name"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -143,12 +141,10 @@ const Register = () => {
               >
                 <Input
                   prefix={<MailOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="text"
                   placeholder="Enter your valid email address"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -163,12 +159,10 @@ const Register = () => {
               >
                 <Input
                   prefix={<PhoneFilled />}
-                  className="pass-input"
+                  className="form-input"
                   type="number"
                   placeholder="Phone Number"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -183,12 +177,10 @@ const Register = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Create password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
               <Form.Item
@@ -203,12 +195,10 @@ const Register = () => {
               >
                 <Input.Password
                   prefix={<LockOutlined />}
-                  className="pass-input"
+                  className="form-input"
                   type="password"
                   placeholder="Re-enter password"
-                  style={{
-                    height: 40,
-                  }}
+                  size="large"
                 />
               </Form.Item>
 
