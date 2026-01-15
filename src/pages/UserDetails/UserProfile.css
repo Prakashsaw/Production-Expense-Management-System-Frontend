@@ -185,9 +185,9 @@
   font-weight: 500;
 }
 
-#dot-1:checked ~ .category label .one,
-#dot-2:checked ~ .category label .two,
-#dot-3:checked ~ .category label .three {
+.gender-details label input[type="radio"]:checked + .dot.one,
+.gender-details label input[type="radio"]:checked + .dot.two,
+.gender-details label input[type="radio"]:checked + .dot.three {
   background: var(--primary-color);
   border-color: var(--gray-200);
 }
