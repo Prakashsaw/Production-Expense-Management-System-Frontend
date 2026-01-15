@@ -32,27 +32,27 @@ const AdminLogin = () => {
       setLoading(true);
       setLoginError(null);
 
-      // TODO: Replace with actual API endpoint when backend is ready
-      // const { data } = await axios.post(
-      //   `${BASE_URL}/api/v1/admin/login`,
-      //   values
-      // );
+      const { data } = await axios.post(
+        `${BASE_URL}/api/v1/admin/login`,
+        values
+      );
 
-      // Simulating API call for now
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setLoading(false);
 
-      // Simulated success - remove when backend is ready
-      // localStorage.setItem("admin", JSON.stringify({ ...data.admin }));
-      // message.success("Admin login successful");
-      // navigate("/admin/dashboard");
-
-      // For now, just show success and navigate (remove this when backend is ready)
-      message.success("Admin login successful (Demo Mode)");
-      navigate("/admin/dashboard");
+      if (data.status === "success") {
+        // Store admin data (adminId, email, name) - NOT adminKey (password)
+        localStorage.setItem("admin", JSON.stringify({ ...data.admin }));
+        message.success("Admin login successful");
+        navigate("/admin/dashboard");
+      } else {
+        setLoginError(data.message || "Login failed. Please check your credentials.");
+        message.error(data.message || "Login failed. Please check your credentials.");
+      }
     } catch (error) {
       setLoading(false);
-      setLoginError(getResponseError(error));
-      message.error("Login failed. Please check your credentials.");
+      const errorMessage = getResponseError(error);
+      setLoginError(errorMessage);
+      message.error(errorMessage || "Login failed. Please check your credentials.");
     }
   };
 

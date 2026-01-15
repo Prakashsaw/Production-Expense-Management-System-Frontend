@@ -28,26 +28,26 @@ const RequestForAdminAccess = () => {
       setRequestError(null);
       setResponseMessage(null);
 
-      // TODO: Replace with actual API endpoint when backend is ready
-      // const { data } = await axios.post(
-      //   `${BASE_URL}/api/v1/admin/request-access`,
-      //   values
-      // );
-
-      // Simulating API call for now
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const { data } = await axios.post(
+        `${BASE_URL}/api/v1/admin/request-access`,
+        values
+      );
 
       setLoading(false);
-      setResponseMessage(
-        "Your request for admin access has been submitted successfully. Our team will review your request and send you a security admin key via email if approved."
-      );
-      message.success("Request submitted successfully!");
-      form.resetFields();
+      
+      if (data.status === "success") {
+        setResponseMessage(data.message);
+        message.success("Request submitted successfully!");
+        form.resetFields();
 
-      // Navigate to admin login after 3 seconds
-      setTimeout(() => {
-        navigate("/admin/login");
-      }, 3000);
+        // Navigate to admin login after 3 seconds
+        setTimeout(() => {
+          navigate("/admin/login");
+        }, 3000);
+      } else {
+        setRequestError(data.message || "Something went wrong. Please try again.");
+        message.error(data.message || "Request failed. Please try again.");
+      }
     } catch (error) {
       setLoading(false);
       setRequestError(getResponseError(error));
