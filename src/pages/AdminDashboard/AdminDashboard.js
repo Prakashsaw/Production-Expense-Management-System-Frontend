@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Table, Modal, Card, Statistic, Tag, Button, Space, message } from "antd";
+import { Table, Modal, Card, Statistic, Tag, Button, message, Input } from "antd";
 import {
   UserOutlined,
   DollarOutlined,
@@ -12,8 +12,10 @@ import {
   ManOutlined,
   WomanOutlined,
   DashboardOutlined,
-  AppstoreOutlined,
   LogoutOutlined,
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
@@ -58,6 +60,7 @@ const generateDummyUsers = () => {
       userId: `USER${String(i).padStart(6, "0")}`,
       email: `user${i}@example.com`,
       phone: i % 3 === 0 ? null : `+91 ${Math.floor(Math.random() * 9000000000) + 1000000000}`,
+      isVerified: i % 2 === 0, // Random verification status
       createdDate: createdDate.toISOString(),
       totalTurnover: totalTurnover,
       totalIncome: income,
@@ -73,20 +76,56 @@ const generateDummyUsers = () => {
 };
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState(generateDummyUsers());
+  const [users] = useState(generateDummyUsers());
+  const [searchText, setSearchText] = useState("");
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const navigate = useNavigate();
 
-  // Calculate summary statistics
+  // Filter users based on search text
+  const filteredUsers = useMemo(() => {
+    if (!searchText.trim()) {
+      return users;
+    }
+
+    const searchLower = searchText.toLowerCase().trim();
+    return users.filter((user) => {
+      // Search across all user attributes
+      const userId = user.userId?.toLowerCase() || "";
+      const email = user.email?.toLowerCase() || "";
+      const phone = user.phone?.toLowerCase() || "";
+      const isVerified = user.isVerified ? "verified" : "not verified";
+      const createdDate = moment(user.createdDate).format("DD MMM YYYY, HH:mm").toLowerCase();
+      const totalTurnover = user.totalTurnover?.toString() || "";
+      const name = user.name?.toLowerCase() || "";
+      const address = user.address?.toLowerCase() || "";
+      const favoriteSport = user.favoriteSport?.toLowerCase() || "";
+      const gender = user.gender?.toLowerCase() || "";
+
+      return (
+        userId.includes(searchLower) ||
+        email.includes(searchLower) ||
+        phone.includes(searchLower) ||
+        isVerified.includes(searchLower) ||
+        createdDate.includes(searchLower) ||
+        totalTurnover.includes(searchLower) ||
+        name.includes(searchLower) ||
+        address.includes(searchLower) ||
+        favoriteSport.includes(searchLower) ||
+        gender.includes(searchLower)
+      );
+    });
+  }, [users, searchText]);
+
+  // Calculate summary statistics based on filtered users
   const summaryStats = useMemo(() => {
-    const totalUsers = users.length;
-    const totalTurnover = users.reduce((sum, user) => sum + user.totalTurnover, 0);
+    const totalUsers = filteredUsers.length;
+    const totalTurnover = filteredUsers.reduce((sum, user) => sum + user.totalTurnover, 0);
     return {
       totalUsers,
       totalTurnover,
     };
-  }, [users]);
+  }, [filteredUsers]);
 
   // Handle row click to show user details
   const handleRowClick = (record) => {
@@ -125,19 +164,25 @@ const AdminDashboard = () => {
       ),
     },
     {
-      title: "Phone Number",
-      dataIndex: "phone",
-      key: "phone",
-      width: 150,
-      render: (text) =>
-        text ? (
-          <span>
-            <PhoneOutlined style={{ marginRight: 8, color: "#667eea" }} />
-            {text}
-          </span>
-        ) : (
-          <Tag color="default">Not Provided</Tag>
-        ),
+      title: "isVerified",
+      dataIndex: "isVerified",
+      key: "isVerified",
+      width: 120,
+      render: (isVerified) => (
+        <Tag color={isVerified ? "green" : "red"}>
+          {isVerified ? (
+            <>
+              <CheckCircleOutlined style={{ marginRight: 4 }} />
+              Verified
+            </>
+          ) : (
+            <>
+              <CloseCircleOutlined style={{ marginRight: 4 }} />
+              Not Verified
+            </>
+          )}
+        </Tag>
+      ),
     },
     {
       title: "Created Date & Time",
@@ -236,15 +281,29 @@ const AdminDashboard = () => {
 
           {/* Users Table */}
           <Card className="users-table-card">
-            <h2 className="table-title">Registered Users</h2>
+            <div className="table-header-with-search">
+              <h2 className="table-title">Registered Users</h2>
+              <div className="admin-search-bar">
+                <Input
+                  placeholder="Search by User ID, Email, Phone, Status, Date, Turnover, Name, etc."
+                  allowClear
+                  size="large"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  prefix={<SearchOutlined style={{ color: '#667eea', fontSize: '16px' }} />}
+                  className="admin-search-input"
+                />
+              </div>
+            </div>
             <Table
               columns={columns}
-              dataSource={users}
+              dataSource={filteredUsers}
               rowKey="userId"
               pagination={{
                 pageSize: 10,
                 showSizeChanger: true,
-                showTotal: (total) => `Total ${total} users`,
+                showTotal: (total, range) => 
+                  `${range[0]}-${range[1]} of ${total} users${searchText ? ` (filtered from ${users.length} total)` : ''}`,
               }}
               onRow={(record) => ({
                 onClick: () => handleRowClick(record),
@@ -298,6 +357,32 @@ const AdminDashboard = () => {
                   <div className="detail-row">
                     <div className="detail-item-horizontal">
                       <span className="detail-label">
+                        {selectedUser.isVerified ? (
+                          <CheckCircleOutlined style={{ marginRight: 8, color: "#52c41a" }} />
+                        ) : (
+                          <CloseCircleOutlined style={{ marginRight: 8, color: "#ff4d4f" }} />
+                        )}
+                        isVerified
+                      </span>
+                      <span className="detail-value">
+                        <Tag color={selectedUser.isVerified ? "green" : "red"}>
+                          {selectedUser.isVerified ? (
+                            <>
+                              <CheckCircleOutlined style={{ marginRight: 4 }} />
+                              Verified
+                            </>
+                          ) : (
+                            <>
+                              <CloseCircleOutlined style={{ marginRight: 4 }} />
+                              Not Verified
+                            </>
+                          )}
+                        </Tag>
+                      </span>
+                    </div>
+
+                    <div className="detail-item-horizontal">
+                      <span className="detail-label">
                         <PhoneOutlined style={{ marginRight: 8, color: "#667eea" }} />
                         Phone Number
                       </span>
@@ -307,7 +392,9 @@ const AdminDashboard = () => {
                         )}
                       </span>
                     </div>
+                  </div>
 
+                  <div className="detail-row">
                     <div className="detail-item-horizontal">
                       <span className="detail-label">
                         <CalendarOutlined style={{ marginRight: 8, color: "#667eea" }} />
