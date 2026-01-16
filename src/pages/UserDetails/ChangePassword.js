@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Input, message, Alert } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,6 +15,15 @@ const ChangePassword = () => {
   const [responseMessage, setResponseMessage] = useState(null);
 
   const navigate = useNavigate();
+
+  // Check if user is a Google auth user - redirect them if they are
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user && user.registeredWith === "GOOGLE") {
+      message.warning("Password change is not available for Google Sign-In users.");
+      navigate("/user");
+    }
+  }, [navigate]);
   //from submit
   const submitHandler = async (values) => {
     // console.log("values : ",values);

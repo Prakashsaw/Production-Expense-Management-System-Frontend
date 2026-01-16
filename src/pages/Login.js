@@ -33,7 +33,10 @@ const Login = () => {
       );
       setLoading(false);
       message.success("Login successful");
-      localStorage.setItem("user", JSON.stringify({ ...data.user }));
+      localStorage.setItem("user", JSON.stringify({ 
+        ...data.user, 
+        registeredWith: data.registeredWith || "EMAIL" // Add registeredWith flag
+      }));
       navigate("/user");
     } catch (error) {
       setLoading(false);

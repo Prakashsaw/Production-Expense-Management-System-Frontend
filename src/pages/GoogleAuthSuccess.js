@@ -20,7 +20,13 @@ const GoogleAuthSuccess = () => {
     if (token) {
       localStorage.setItem(
         "user",
-        JSON.stringify({ expenseAppUserId, isVerified, name, token })
+        JSON.stringify({ 
+          expenseAppUserId, 
+          isVerified, 
+          name, 
+          token,
+          registeredWith: "GOOGLE" // Flag to identify Google auth users
+        })
       );
       message.success("Google Login Successful!");
       navigate("/user");

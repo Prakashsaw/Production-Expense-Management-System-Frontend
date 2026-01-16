@@ -25,6 +25,9 @@ const Header = () => {
     navigate("/");
   };
 
+  // Check if user is a Google auth user (they don't have change password option)
+  const isGoogleUser = loginUser && loginUser.registeredWith === "GOOGLE";
+
   const items = [
     {
       label: <Link to="/user/user-profile">My Profile</Link>,
@@ -32,11 +35,12 @@ const Header = () => {
       icon: <UserOutlined />,
       link: "/login",
     },
-    {
+    // Only show Change Password for email/password users, not Google users
+    ...(isGoogleUser ? [] : [{
       label: <Link to="/user/change-password">Change Password</Link>,
       key: "2",
       icon: <EditOutlined />,
-    },
+    }]),
     {
       type: "divider",
     },

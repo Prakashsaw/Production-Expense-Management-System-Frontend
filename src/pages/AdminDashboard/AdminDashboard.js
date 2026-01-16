@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Table, Modal, Card, Statistic, Tag, Button, message, Input, Spin, Dropdown } from "antd";
+import { Table, Modal, Card, Statistic, Tag, Button, message, Input, Spin, Dropdown, Select } from "antd";
 import {
   UserOutlined,
   DollarOutlined,
@@ -32,6 +32,9 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState("");
+  const [userIdFilter, setUserIdFilter] = useState("");
+  const [emailFilter, setEmailFilter] = useState("");
+  const [isVerifiedFilter, setIsVerifiedFilter] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [adminProfile, setAdminProfile] = useState(null);
@@ -101,40 +104,62 @@ const AdminDashboard = () => {
     fetchDashboardData();
   }, [navigate]);
 
-  // Filter users based on search text
+  // Filter users based on search text and column filters
   const filteredUsers = useMemo(() => {
-    if (!searchText.trim()) {
-      return users;
+    let filtered = users;
+
+    // Apply column filters first
+    if (userIdFilter.trim()) {
+      filtered = filtered.filter((user) =>
+        user.userId?.toLowerCase().includes(userIdFilter.toLowerCase().trim())
+      );
     }
 
-    const searchLower = searchText.toLowerCase().trim();
-    return users.filter((user) => {
-      // Search across all user attributes
-      const userId = user.userId?.toLowerCase() || "";
-      const email = user.email?.toLowerCase() || "";
-      const phone = user.phone?.toLowerCase() || "";
-      const isVerified = user.isVerified ? "verified" : "not verified";
-      const createdDate = moment(user.createdDate).format("DD MMM YYYY, HH:mm").toLowerCase();
-      const totalTurnover = user.totalTurnover?.toString() || "";
-      const name = user.name?.toLowerCase() || "";
-      const address = user.address?.toLowerCase() || "";
-      const favoriteSport = user.favoriteSport?.toLowerCase() || "";
-      const gender = user.gender?.toLowerCase() || "";
-
-      return (
-        userId.includes(searchLower) ||
-        email.includes(searchLower) ||
-        phone.includes(searchLower) ||
-        isVerified.includes(searchLower) ||
-        createdDate.includes(searchLower) ||
-        totalTurnover.includes(searchLower) ||
-        name.includes(searchLower) ||
-        address.includes(searchLower) ||
-        favoriteSport.includes(searchLower) ||
-        gender.includes(searchLower)
+    if (emailFilter.trim()) {
+      filtered = filtered.filter((user) =>
+        user.email?.toLowerCase().includes(emailFilter.toLowerCase().trim())
       );
-    });
-  }, [users, searchText]);
+    }
+
+    if (isVerifiedFilter !== null) {
+      filtered = filtered.filter((user) => user.isVerified === isVerifiedFilter);
+    }
+
+    // Apply search text filter
+    if (searchText.trim()) {
+      const searchLower = searchText.toLowerCase().trim();
+      filtered = filtered.filter((user) => {
+        // Search across all user attributes
+        const userId = user.userId?.toLowerCase() || "";
+        const email = user.email?.toLowerCase() || "";
+        const phone = user.phone?.toLowerCase() || "";
+        const isVerified = user.isVerified ? "verified" : "not verified";
+        const createdDate = moment(user.createdDate).format("DD MMM YYYY, HH:mm").toLowerCase();
+        const totalTurnover = user.totalTurnover?.toString() || "";
+        const name = user.name?.toLowerCase() || "";
+        const address = user.address?.toLowerCase() || "";
+        const favoriteSport = user.favoriteSport?.toLowerCase() || "";
+        const gender = user.gender?.toLowerCase() || "";
+        const registeredWith = user.registeredWith?.toLowerCase() || "";
+
+        return (
+          userId.includes(searchLower) ||
+          email.includes(searchLower) ||
+          phone.includes(searchLower) ||
+          isVerified.includes(searchLower) ||
+          createdDate.includes(searchLower) ||
+          totalTurnover.includes(searchLower) ||
+          name.includes(searchLower) ||
+          address.includes(searchLower) ||
+          favoriteSport.includes(searchLower) ||
+          gender.includes(searchLower) ||
+          registeredWith.includes(searchLower)
+        );
+      });
+    }
+
+    return filtered;
+  }, [users, searchText, userIdFilter, emailFilter, isVerifiedFilter]);
 
   // Handle row click to show user details
   const handleRowClick = (record) => {
@@ -306,6 +331,31 @@ const AdminDashboard = () => {
       dataIndex: "userId",
       key: "userId",
       width: 120,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Filter User ID"
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+              setUserIdFilter(e.target.value || "");
+            }}
+            onPressEnter={confirm}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <div style={{ display: "flex", gap: 8 }}>
+            <Button type="primary" onClick={confirm} size="small" style={{ width: 90 }}>
+              Search
+            </Button>
+            <Button onClick={() => { clearFilters(); setUserIdFilter(""); }} size="small" style={{ width: 90 }}>
+              Reset
+            </Button>
+          </div>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
       render: (text) => <Tag color="blue">{text}</Tag>,
     },
     {
@@ -313,6 +363,31 @@ const AdminDashboard = () => {
       dataIndex: "email",
       key: "email",
       width: 200,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+        <div style={{ padding: 8 }}>
+          <Input
+            placeholder="Filter Email"
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+              setEmailFilter(e.target.value || "");
+            }}
+            onPressEnter={confirm}
+            style={{ marginBottom: 8, display: "block" }}
+          />
+          <div style={{ display: "flex", gap: 8 }}>
+            <Button type="primary" onClick={confirm} size="small" style={{ width: 90 }}>
+              Search
+            </Button>
+            <Button onClick={() => { clearFilters(); setEmailFilter(""); }} size="small" style={{ width: 90 }}>
+              Reset
+            </Button>
+          </div>
+        </div>
+      ),
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
       render: (text) => (
         <span>
           <MailOutlined style={{ marginRight: 8, color: "#667eea" }} />
@@ -321,10 +396,57 @@ const AdminDashboard = () => {
       ),
     },
     {
+      title: "Registered With",
+      dataIndex: "registeredWith",
+      key: "registeredWith",
+      width: 130,
+      render: (text) => (
+        <Tag color={text === "GOOGLE" ? "orange" : "blue"}>
+          {text || "EMAIL"}
+        </Tag>
+      ),
+      filters: [
+        { text: "EMAIL", value: "EMAIL" },
+        { text: "GOOGLE", value: "GOOGLE" },
+      ],
+      onFilter: (value, record) => record.registeredWith === value,
+    },
+    {
       title: "isVerified",
       dataIndex: "isVerified",
       key: "isVerified",
       width: 120,
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+        const { Option } = Select;
+        return (
+          <div style={{ padding: 8 }}>
+            <Select
+              placeholder="Select Status"
+              value={selectedKeys[0] !== undefined ? selectedKeys[0] : undefined}
+              onChange={(value) => {
+                setSelectedKeys(value !== undefined && value !== null ? [value] : []);
+                setIsVerifiedFilter(value !== undefined && value !== null ? value : null);
+              }}
+              style={{ width: "100%", marginBottom: 8 }}
+              allowClear
+            >
+              <Option value={true}>Verified</Option>
+              <Option value={false}>Not Verified</Option>
+            </Select>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Button type="primary" onClick={confirm} size="small" style={{ width: 90 }}>
+                Search
+              </Button>
+              <Button onClick={() => { clearFilters(); setIsVerifiedFilter(null); }} size="small" style={{ width: 90 }}>
+                Reset
+              </Button>
+            </div>
+          </div>
+        );
+      },
+      filterIcon: (filtered) => (
+        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
+      ),
       render: (isVerified) => (
         <Tag color={isVerified ? "green" : "red"}>
           {isVerified ? (
@@ -518,7 +640,7 @@ const AdminDashboard = () => {
                 pageSize: 10,
                 showSizeChanger: true,
                 showTotal: (total, range) => 
-                  `${range[0]}-${range[1]} of ${total} users${searchText ? ` (filtered from ${summaryStats.totalUsers} total)` : ''}`,
+                  `${range[0]}-${range[1]} of ${total} users${(searchText || userIdFilter || emailFilter || isVerifiedFilter !== null) ? ` (filtered from ${summaryStats.totalUsers} total)` : ''}`,
               }}
               loading={loading}
               onRow={(record) => ({
