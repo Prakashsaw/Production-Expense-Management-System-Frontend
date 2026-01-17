@@ -19,6 +19,15 @@ import {
   ExportOutlined,
   ExclamationCircleOutlined,
   CloseCircleOutlined,
+  DollarOutlined,
+  SwapOutlined,
+  FolderOutlined,
+  CalendarOutlined,
+  FileTextOutlined,
+  EditFilled,
+  PlusOutlined,
+  ArrowUpOutlined,
+  ArrowDownOutlined,
 } from "@ant-design/icons";
 import Layout from "./../components/Layout/Layout";
 import moment from "moment";
@@ -28,6 +37,7 @@ import { useAuth } from "../hooks/useAuth";
 import ErrorAlert from "../components/common/ErrorAlert";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import "./TransactionFormModal.css";
 
 const { RangePicker } = DatePicker;
 const { Search } = Input;
@@ -284,10 +294,10 @@ const HomePage = () => {
   // Update form values when editable changes
   useEffect(() => {
     if (showModal && editable) {
-      // Format date for input field (YYYY-MM-DD)
+      // Format date for DatePicker (moment object)
       const formattedDate = editable.date 
-        ? moment(editable.date).format('YYYY-MM-DD')
-        : '';
+        ? moment(editable.date)
+        : null;
       
       form.setFieldsValue({
         ...editable,
@@ -306,11 +316,17 @@ const HomePage = () => {
         ? `/api/v1/transections/edit-transection/${editable.transactionId}`
         : "/api/v1/transections/add-transection";
 
+      // Format date to YYYY-MM-DD if it's a moment object
+      const formattedValues = {
+        ...values,
+        date: values.date ? moment(values.date).format('YYYY-MM-DD') : values.date,
+      };
+
       const result = await request(
         {
           url,
           method: "POST",
-          data: values,
+          data: formattedValues,
           requiresAuth: true,
         },
         {
@@ -499,19 +515,24 @@ const HomePage = () => {
           </div>
           <Modal
             title={
-              <span
-                style={{
-                  fontSize: "1.5rem",
-                  fontWeight: "700",
-                  background:
-                    "linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                {editable ? "Edit Transaction" : "Add Transaction"}
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {editable ? (
+                  <EditFilled style={{ fontSize: '24px', color: '#ffffff' }} />
+                ) : (
+                  <PlusOutlined style={{ fontSize: '24px', color: '#ffffff' }} />
+                )}
+                <span
+                  style={{
+                    fontSize: "1.5rem",
+                    fontWeight: "700",
+                    color: "#ffffff",
+                    textShadow: "0 2px 4px rgba(0, 0, 0, 0.15)",
+                    letterSpacing: "0.3px",
+                  }}
+                >
+                  {editable ? "Edit Transaction" : "Add Transaction"}
+                </span>
+              </div>
             }
             open={showModal}
             onCancel={() => {
@@ -521,7 +542,8 @@ const HomePage = () => {
             }}
             destroyOnClose={true}
             footer={false}
-            width={600}
+            width={700}
+            className="transaction-form-modal"
             style={{
               borderRadius: "var(--radius-xl)",
             }}
@@ -530,108 +552,183 @@ const HomePage = () => {
               form={form}
               layout="vertical"
               onFinish={handleSubmit}
+              className="modern-transaction-form"
             >
-              <Form.Item 
-                label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Amount</span>} 
-                name="amount"
-                rules={[{ required: true, message: 'Please enter amount!' }]}
-              >
-                <Input 
-                  type="number" 
-                  placeholder="Enter amount"
-                  style={{ borderRadius: 'var(--radius-md)', height: '40px' }}
-                />
-              </Form.Item>
-              <Form.Item 
-                label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Type</span>} 
-                name="type"
-                rules={[{ required: true, message: 'Please select type!' }]}
-              >
-                <Select 
-                  placeholder="Select type"
-                  style={{ borderRadius: 'var(--radius-md)' }}
+              {/* Amount and Type Row */}
+              <div className="form-row-group">
+                <Form.Item 
+                  label={
+                    <span className="form-label">
+                      <DollarOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                      Amount (₹)
+                    </span>
+                  } 
+                  name="amount"
+                  rules={[{ required: true, message: 'Please enter amount!' }]}
+                  className="form-item-modern"
                 >
-                  <Select.Option value="Income">Income</Select.Option>
-                  <Select.Option value="Expense">Expense</Select.Option>
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label={
-                  <span
-                    style={{
-                      fontWeight: "600",
-                      color: "var(--text-primary)",
-                    }}
+                  <Input 
+                    type="number" 
+                    placeholder="Enter amount"
+                    prefix="₹"
+                    className="modern-input"
+                    style={{ height: '48px', fontSize: '16px' }}
+                  />
+                </Form.Item>
+                
+                <Form.Item 
+                  label={
+                    <span className="form-label">
+                      <SwapOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                      Type
+                    </span>
+                  } 
+                  name="type"
+                  rules={[{ required: true, message: 'Please select type!' }]}
+                  className="form-item-modern"
+                >
+                  <Select 
+                    placeholder="Select transaction type"
+                    className="modern-select"
+                    style={{ height: '48px' }}
+                    suffixIcon={<SwapOutlined />}
                   >
-                    Category
-                  </span>
-                }
-                name="category"
-                rules={[{ required: true, message: "Please select category!" }]}
-              >
-                <Select
-                  placeholder="Select category"
-                  style={{ borderRadius: "var(--radius-md)" }}
-                >
-                  {TRANSACTION_CATEGORIES.map((category) => (
-                    <Select.Option key={category} value={category}>
-                      {category}
+                    <Select.Option value="Income">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <ArrowUpOutlined style={{ color: '#10b981', fontSize: '16px' }} />
+                        <span style={{ fontWeight: '600', color: '#10b981' }}>Income</span>
+                      </div>
                     </Select.Option>
-                  ))}
-                </Select>
-              </Form.Item>
+                    <Select.Option value="Expense">
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <ArrowDownOutlined style={{ color: '#ef4444', fontSize: '16px' }} />
+                        <span style={{ fontWeight: '600', color: '#ef4444' }}>Expense</span>
+                      </div>
+                    </Select.Option>
+                  </Select>
+                </Form.Item>
+              </div>
+
+              {/* Category and Date Row */}
+              <div className="form-row-group">
+                <Form.Item
+                  label={
+                    <span className="form-label">
+                      <FolderOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                      Category
+                    </span>
+                  }
+                  name="category"
+                  rules={[{ required: true, message: "Please select category!" }]}
+                  className="form-item-modern"
+                >
+                  <Select
+                    placeholder="Select category"
+                    className="modern-select"
+                    style={{ height: '48px' }}
+                    suffixIcon={<FolderOutlined />}
+                  >
+                    {TRANSACTION_CATEGORIES.map((category) => (
+                      <Select.Option key={category} value={category}>
+                        {category}
+                      </Select.Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+
+                <Form.Item 
+                  label={
+                    <span className="form-label">
+                      <CalendarOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                      Date
+                    </span>
+                  } 
+                  name="date"
+                  rules={[{ required: true, message: 'Please select date!' }]}
+                  className="form-item-modern"
+                >
+                  <DatePicker
+                    format="YYYY-MM-DD"
+                    placeholder="Select date"
+                    className="modern-datepicker"
+                    style={{ width: '100%', height: '48px', fontSize: '16px' }}
+                  />
+                </Form.Item>
+              </div>
+
+              {/* Reference */}
               <Form.Item 
-                label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Date</span>} 
-                name="date"
-                rules={[{ required: true, message: 'Please select date!' }]}
-              >
-                <Input 
-                  type="date" 
-                  style={{ borderRadius: 'var(--radius-md)', height: '40px' }}
-                />
-              </Form.Item>
-              <Form.Item 
-                label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Reference</span>} 
+                label={
+                  <span className="form-label">
+                    <FileTextOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                    Reference
+                  </span>
+                } 
                 name="refrence"
                 rules={[{ required: true, message: 'Please enter reference!' }]}
+                className="form-item-modern"
               >
                 <Input 
                   type="text" 
-                  placeholder="Enter reference"
-                  style={{ borderRadius: 'var(--radius-md)', height: '40px' }}
+                  placeholder="Enter reference number or identifier"
+                  className="modern-input"
+                  style={{ height: '48px', fontSize: '16px' }}
                 />
               </Form.Item>
+
+              {/* Description */}
               <Form.Item 
-                label={<span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Description</span>} 
+                label={
+                  <span className="form-label">
+                    <EditOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                    Description
+                  </span>
+                } 
                 name="description"
                 rules={[{ required: true, message: 'Please enter description!' }]}
+                className="form-item-modern"
               >
                 <Input.TextArea 
-                  rows={3}
-                  placeholder="Enter description"
-                  style={{ borderRadius: 'var(--radius-md)' }}
+                  rows={4}
+                  placeholder="Enter transaction description..."
+                  className="modern-textarea"
+                  style={{ fontSize: '16px', resize: 'vertical' }}
                 />
               </Form.Item>
-              <div className="d-flex justify-content-end" style={{ gap: '0.5rem', marginTop: '1.5rem' }}>
-                <button
-                  type="button"
-                  className="btn btn-secondary"
+
+              {/* Action Buttons */}
+              <div className="form-actions">
+                <Button
+                  type="default"
+                  size="large"
                   onClick={() => {
                     setShowModal(false);
                     setEditable(null);
+                    form.resetFields();
                   }}
-                  style={{ minWidth: '100px' }}
+                  className="cancel-btn-modern"
+                  style={{ minWidth: '120px', height: '48px', fontSize: '16px', fontWeight: '600' }}
                 >
                   Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading}
-                  style={{ minWidth: '100px' }}
+                </Button>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  size="large"
+                  loading={loading}
+                  className="submit-btn-modern"
+                  style={{ 
+                    minWidth: '120px', 
+                    height: '48px', 
+                    fontSize: '16px', 
+                    fontWeight: '600',
+                    background: 'linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%)',
+                    border: 'none',
+                    boxShadow: '0 4px 15px rgba(102, 126, 234, 0.4)'
+                  }}
                 >
-                  {loading ? 'Saving...' : 'SAVE'}
-                </button>
+                  {loading ? 'Saving...' : editable ? 'Update Transaction' : 'Add Transaction'}
+                </Button>
               </div>
             </Form>
           </Modal>
