@@ -645,24 +645,33 @@ const AdminDashboard = () => {
                 items: [
                   {
                     key: "profile",
-                    label: "Admin Profile",
-                    icon: <ProfileOutlined />,
+                    label: (
+                      <div className="admin-dropdown-menu-item">
+                        <ProfileOutlined className="admin-dropdown-icon profile-icon" />
+                        <span>Admin Profile</span>
+                      </div>
+                    ),
                     onClick: handleViewProfile,
                   },
                   {
                     type: "divider",
+                    className: "admin-dropdown-divider",
                   },
                   {
                     key: "deactivate",
-                    label: "Deactivate Account",
-                    icon: <StopOutlined />,
-                    danger: true,
+                    label: (
+                      <div className="admin-dropdown-menu-item deactivate-item">
+                        <StopOutlined className="admin-dropdown-icon deactivate-icon" />
+                        <span>Deactivate Account</span>
+                      </div>
+                    ),
                     onClick: handleDeactivateAccount,
                   },
                 ],
               }}
               trigger={["click"]}
               placement="bottomRight"
+              overlayClassName="admin-profile-dropdown"
             >
               <Button
                 type="default"
