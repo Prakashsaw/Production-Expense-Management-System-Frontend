@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { Table, Modal, Card, Statistic, Tag, Button, message, Input, Spin, Dropdown, Select } from "antd";
+import { Table, Modal, Card, Statistic, Tag, Button, message, Input, Spin, Dropdown, Select, Alert } from "antd";
 import {
   UserOutlined,
   DollarOutlined,
@@ -26,6 +26,7 @@ import moment from "moment";
 import axios from "axios";
 import { BASE_URL } from "../../utils/baseURL";
 import { getResponseError } from "../../utils/getResponseError";
+import OTPInput from "../../components/OTPInput";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -42,7 +43,13 @@ const AdminDashboard = () => {
   const [profileLoading, setProfileLoading] = useState(false);
   const [isEditingPhone, setIsEditingPhone] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
-  const [updatingPhone, setUpdatingPhone] = useState(false);
+  const [phoneOTPModalVisible, setPhoneOTPModalVisible] = useState(false);
+  const [phoneOTPSent, setPhoneOTPSent] = useState(false);
+  const [phoneOTP, setPhoneOTP] = useState("");
+  const [sendingPhoneOTP, setSendingPhoneOTP] = useState(false);
+  const [verifyingPhoneOTP, setVerifyingPhoneOTP] = useState(false);
+  const [phoneOTPError, setPhoneOTPError] = useState(null);
+  const [tempPhoneNumber, setTempPhoneNumber] = useState("");
   const [isDeactivateModalVisible, setIsDeactivateModalVisible] = useState(false);
   const [deactivating, setDeactivating] = useState(false);
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
@@ -226,8 +233,30 @@ const AdminDashboard = () => {
     }
   };
 
-  // Handle update phone number
+  // Handle update phone number - triggers OTP flow
   const handleUpdatePhone = async () => {
+    const fieldValue = phoneValue.trim() || "";
+    if (fieldValue === "" || fieldValue === "Not Provided") {
+      message.warning("Please enter a valid phone number");
+      return;
+    }
+
+    // Validate phone number format
+    const phoneRegex = /^[+]?[(]?[0-9]{1,4}[)]?[-\s.]?[(]?[0-9]{1,4}[)]?[-\s.]?[0-9]{1,9}$/;
+    if (!phoneRegex.test(fieldValue)) {
+      message.warning("Please enter a valid phone number format");
+      return;
+    }
+
+    setTempPhoneNumber(fieldValue);
+    setPhoneOTPModalVisible(true);
+    setPhoneOTPSent(false);
+    setPhoneOTP("");
+    setPhoneOTPError(null);
+  };
+
+  // Send OTP for admin phone verification
+  const handleSendAdminPhoneOTP = async () => {
     try {
       const adminData = localStorage.getItem("admin");
       if (!adminData) {
@@ -244,31 +273,104 @@ const AdminDashboard = () => {
         return;
       }
 
-      setUpdatingPhone(true);
-      const { data } = await axios.put(`${BASE_URL}/api/v1/admin/update-phone`, {
+      setSendingPhoneOTP(true);
+      setPhoneOTPError(null);
+
+      const { data } = await axios.post(`${BASE_URL}/api/v1/admin/send-phone-otp`, {
         adminId: admin.adminId,
-        phone: phoneValue.trim() || "Not Provided",
+        phoneNumber: tempPhoneNumber,
       });
 
       if (data.status === "success") {
-        setAdminProfile(data.admin);
-        setIsEditingPhone(false);
-        message.success("Phone number updated successfully!");
+        setPhoneOTPSent(true);
+        message.success("OTP sent successfully to your phone number!");
       } else {
-        message.error(data.message || "Failed to update phone number");
+        setPhoneOTPError(data.message || "Failed to send OTP");
+        message.error(data.message || "Failed to send OTP");
       }
     } catch (error) {
-      console.error("Update phone error:", error);
+      console.error("Send phone OTP error:", error);
       const errorMessage = getResponseError(error);
-      message.error(errorMessage || "Failed to update phone number");
+      setPhoneOTPError(errorMessage);
+      message.error(errorMessage || "Failed to send OTP. Please try again.");
       
       if (error.response?.status === 401) {
         localStorage.removeItem("admin");
         navigate("/admin/login");
       }
     } finally {
-      setUpdatingPhone(false);
+      setSendingPhoneOTP(false);
     }
+  };
+
+  // Verify admin phone OTP
+  const handleVerifyAdminPhoneOTP = async () => {
+    if (phoneOTP.length !== 6) {
+      setPhoneOTPError("Please enter a valid 6-digit OTP");
+      return;
+    }
+
+    try {
+      const adminData = localStorage.getItem("admin");
+      if (!adminData) {
+        message.error("Please login to update profile");
+        navigate("/admin/login");
+        return;
+      }
+
+      const admin = JSON.parse(adminData);
+      if (!admin || !admin.adminId) {
+        message.error("Invalid admin session");
+        localStorage.removeItem("admin");
+        navigate("/admin/login");
+        return;
+      }
+
+      setVerifyingPhoneOTP(true);
+      setPhoneOTPError(null);
+
+      const { data } = await axios.post(`${BASE_URL}/api/v1/admin/verify-phone-otp`, {
+        adminId: admin.adminId,
+        phoneNumber: tempPhoneNumber,
+        otp: phoneOTP,
+      });
+
+      if (data.status === "success") {
+        setAdminProfile(data.admin);
+        setIsEditingPhone(false);
+        setPhoneOTPModalVisible(false);
+        setPhoneOTPSent(false);
+        setPhoneOTP("");
+        setTempPhoneNumber("");
+        setPhoneValue("");
+        message.success("Phone number verified and updated successfully!");
+      } else {
+        setPhoneOTPError(data.message || "Invalid OTP");
+        message.error(data.message || "Invalid OTP. Please try again.");
+      }
+    } catch (error) {
+      console.error("Verify phone OTP error:", error);
+      const errorMessage = getResponseError(error);
+      setPhoneOTPError(errorMessage);
+      message.error(errorMessage || "Invalid OTP. Please try again.");
+      
+      if (error.response?.status === 401) {
+        localStorage.removeItem("admin");
+        navigate("/admin/login");
+      }
+    } finally {
+      setVerifyingPhoneOTP(false);
+    }
+  };
+
+  // Cancel phone OTP verification
+  const handleCancelPhoneOTP = () => {
+    setPhoneOTPModalVisible(false);
+    setPhoneOTPSent(false);
+    setPhoneOTP("");
+    setTempPhoneNumber("");
+    setPhoneOTPError(null);
+    setPhoneValue(adminProfile?.phone !== "Not Provided" ? adminProfile.phone : "");
   };
 
   // Handle cancel edit phone
@@ -876,7 +978,7 @@ const AdminDashboard = () => {
                           <Input
                             value={phoneValue}
                             onChange={(e) => setPhoneValue(e.target.value)}
-                            placeholder="Enter phone number (optional)"
+                            placeholder="Enter phone number"
                             prefix={<PhoneOutlined style={{ color: "#667eea" }} />}
                             style={{ marginTop: "8px", marginBottom: "8px" }}
                             allowClear
@@ -886,15 +988,13 @@ const AdminDashboard = () => {
                               type="primary"
                               size="small"
                               onClick={handleUpdatePhone}
-                              loading={updatingPhone}
                               style={{ marginRight: "8px" }}
                             >
-                              Save
+                              Verify
                             </Button>
                             <Button
                               size="small"
                               onClick={handleCancelEditPhone}
-                              disabled={updatingPhone}
                             >
                               Cancel
                             </Button>
@@ -903,17 +1003,31 @@ const AdminDashboard = () => {
                       ) : (
                         <div className="phone-display-section">
                           <span className="detail-value">
-                            {adminProfile.phone !== "Not Provided" ? adminProfile.phone : (
+                            {adminProfile.phone !== "Not Provided" ? (
+                              <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                <span>{adminProfile.phone}</span>
+                                {adminProfile.isPhoneVerified ? (
+                                  <Tag color="green" icon={<CheckCircleOutlined />}>
+                                    Verified
+                                  </Tag>
+                                ) : (
+                                  <Tag color="orange">Not Verified</Tag>
+                                )}
+                              </div>
+                            ) : (
                               <Tag color="default">Not Provided</Tag>
                             )}
                           </span>
                           <Button
                             type="link"
                             size="small"
-                            onClick={() => setIsEditingPhone(true)}
+                            onClick={() => {
+                              setIsEditingPhone(true);
+                              setPhoneValue(adminProfile?.phone !== "Not Provided" ? adminProfile.phone : "");
+                            }}
                             style={{ marginLeft: "8px", padding: 0 }}
                           >
-                            Edit
+                            {adminProfile.phone !== "Not Provided" ? "Edit" : "Add"}
                           </Button>
                         </div>
                       )}
@@ -1070,6 +1184,96 @@ const AdminDashboard = () => {
               <p style={{ fontSize: "14px", color: "#666", margin: 0 }}>
                 If you want to reactivate your account later, please contact the system administrator.
               </p>
+            </div>
+          </Modal>
+
+          {/* Phone OTP Verification Modal */}
+          <Modal
+            title={
+              <span>
+                <PhoneOutlined style={{ marginRight: 8, color: "#667eea" }} />
+                Verify Phone Number
+              </span>
+            }
+            open={phoneOTPModalVisible}
+            onCancel={handleCancelPhoneOTP}
+            footer={null}
+            width={500}
+            closable={!sendingPhoneOTP && !verifyingPhoneOTP}
+            maskClosable={!sendingPhoneOTP && !verifyingPhoneOTP}
+          >
+            <div style={{ padding: "20px 0" }}>
+              {!phoneOTPSent ? (
+                <>
+                  <p style={{ marginBottom: "16px", fontSize: "15px" }}>
+                    We will send an OTP to <strong>{tempPhoneNumber}</strong> to verify your phone number.
+                  </p>
+                  {phoneOTPError && (
+                    <Alert
+                      message={phoneOTPError}
+                      type="error"
+                      showIcon
+                      style={{ marginBottom: "16px" }}
+                    />
+                  )}
+                  <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+                    <Button onClick={handleCancelPhoneOTP} disabled={sendingPhoneOTP}>
+                      Cancel
+                    </Button>
+                    <Button
+                      type="primary"
+                      onClick={handleSendAdminPhoneOTP}
+                      loading={sendingPhoneOTP}
+                      icon={<PhoneOutlined />}
+                    >
+                      Send OTP
+                    </Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p style={{ marginBottom: "16px", fontSize: "15px" }}>
+                    Enter the 6-digit OTP sent to <strong>{tempPhoneNumber}</strong>:
+                  </p>
+                  <div style={{ display: "flex", justifyContent: "center", marginBottom: "16px" }}>
+                    <OTPInput
+                      otp={phoneOTP.split("")}
+                      onChange={(otp) => setPhoneOTP(otp)}
+                    />
+                  </div>
+                  {phoneOTPError && (
+                    <Alert
+                      message={phoneOTPError}
+                      type="error"
+                      showIcon
+                      style={{ marginBottom: "16px" }}
+                    />
+                  )}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <Button
+                      type="link"
+                      onClick={handleSendAdminPhoneOTP}
+                      loading={sendingPhoneOTP}
+                      disabled={sendingPhoneOTP}
+                    >
+                      Resend OTP
+                    </Button>
+                    <div style={{ display: "flex", gap: "8px" }}>
+                      <Button onClick={handleCancelPhoneOTP} disabled={verifyingPhoneOTP}>
+                        Cancel
+                      </Button>
+                      <Button
+                        type="primary"
+                        onClick={handleVerifyAdminPhoneOTP}
+                        loading={verifyingPhoneOTP}
+                        disabled={phoneOTP.length !== 6}
+                      >
+                        Verify
+                      </Button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </Modal>
         </div>

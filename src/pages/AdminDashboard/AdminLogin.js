@@ -23,9 +23,9 @@ const AdminLogin = () => {
         return;
       }
 
-      // Validate admin key format (10 alphanumeric characters)
-      if (!/^[A-Za-z0-9]{10}$/.test(values.adminKey)) {
-        setLoginError("Admin key must be exactly 10 alphanumeric characters.");
+      // Validate admin key format (16 uppercase alphanumeric characters)
+      if (!/^[A-Z0-9]{16}$/.test(values.adminKey)) {
+        setLoginError("Admin key must be exactly 16 uppercase alphanumeric characters (A-Z, 0-9).");
         return;
       }
 
@@ -125,17 +125,17 @@ const AdminLogin = () => {
                       message: "Please enter your security admin key!",
                     },
                     {
-                      pattern: /^[A-Za-z0-9]{10}$/,
-                      message: "Admin key must be exactly 10 alphanumeric characters!",
+                      pattern: /^[A-Z0-9]{16}$/,
+                      message: "Admin key must be exactly 16 uppercase alphanumeric characters (A-Z, 0-9)!",
                     },
                   ]}
                 >
                   <Input.Password
                     prefix={<KeyOutlined />}
-                    placeholder="Enter your 10-character admin key"
+                    placeholder="Enter your admin key"
                     size="large"
                     className="admin-login-input"
-                    maxLength={10}
+                    maxLength={16}
                   />
                 </Form.Item>
 
