@@ -45,6 +45,7 @@ const AdminDashboard = () => {
   const [updatingPhone, setUpdatingPhone] = useState(false);
   const [isDeactivateModalVisible, setIsDeactivateModalVisible] = useState(false);
   const [deactivating, setDeactivating] = useState(false);
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const [summaryStats, setSummaryStats] = useState({
     totalUsers: 0,
     totalTurnover: 0,
@@ -167,8 +168,13 @@ const AdminDashboard = () => {
     setIsModalVisible(true);
   };
 
-  // Handle admin logout
+  // Handle admin logout - show confirmation modal
   const handleLogout = () => {
+    setIsLogoutModalVisible(true);
+  };
+
+  // Confirm logout and perform actual logout
+  const confirmLogout = () => {
     // Remove admin session from localStorage
     localStorage.removeItem("admin");
     message.success("Logged out from Admin Dashboard successfully");
@@ -974,6 +980,43 @@ const AdminDashboard = () => {
                 </div>
               </div>
             )}
+          </Modal>
+
+          {/* Logout Confirmation Modal */}
+          <Modal
+            title={
+              <span style={{ color: "#ff4d4f" }}>
+                <ExclamationCircleOutlined style={{ marginRight: 8, color: "#ff4d4f" }} />
+                Confirm Logout
+              </span>
+            }
+            open={isLogoutModalVisible}
+            onCancel={() => setIsLogoutModalVisible(false)}
+            footer={[
+              <Button
+                key="cancel"
+                onClick={() => setIsLogoutModalVisible(false)}
+              >
+                Cancel
+              </Button>,
+              <Button
+                key="logout"
+                type="primary"
+                danger
+                icon={<LogoutOutlined />}
+                onClick={confirmLogout}
+              >
+                Logout
+              </Button>,
+            ]}
+            width={500}
+            className="logout-confirmation-modal"
+          >
+            <div style={{ padding: "10px 0" }}>
+              <p style={{ fontSize: "15px", marginBottom: "0", fontWeight: 500 }}>
+                Are you sure you want to logout from the Admin Dashboard?
+              </p>
+            </div>
           </Modal>
 
           {/* Deactivate Account Confirmation Modal */}

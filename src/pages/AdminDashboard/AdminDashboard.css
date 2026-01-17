@@ -129,6 +129,19 @@
   color: #ff4d4f;
 }
 
+/* Logout Confirmation Modal */
+.logout-confirmation-modal .ant-modal-content {
+  border-top: 3px solid #ff4d4f;
+}
+
+.logout-confirmation-modal .ant-modal-header {
+  border-bottom: 1px solid #ffccc7;
+}
+
+.logout-confirmation-modal .ant-modal-title {
+  color: #ff4d4f;
+}
+
 /* Deactivate Account Modal */
 .deactivate-account-modal .ant-modal-content {
   border-top: 3px solid #ff4d4f;
