@@ -27,6 +27,7 @@ import axios from "axios";
 import { BASE_URL } from "../../utils/baseURL";
 import { getResponseError } from "../../utils/getResponseError";
 import OTPInput from "../../components/OTPInput";
+import ThemeToggle from "../../components/common/ThemeToggle";
 import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
@@ -640,6 +641,7 @@ const AdminDashboard = () => {
             </div>
           </div>
           <div className="admin-header-buttons">
+            <ThemeToggle />
             <Dropdown
               menu={{
                 items: [

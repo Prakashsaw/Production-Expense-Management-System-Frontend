@@ -23,10 +23,11 @@ import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminDashboard/AdminLogin";
 import RequestForAdminAccess from "./pages/AdminDashboard/RequestForAdminAccess";
 import GoogleAuthSuccess from "./pages/GoogleAuthSuccess";
+import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
   return (
-    <>
+    <ThemeProvider>
       <Routes>
         <Route
           path="/user"
@@ -92,7 +93,7 @@ function App() {
         {/* if path is not correct then navigate to page not found page */}
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-    </>
+    </ThemeProvider>
   );
 }
 

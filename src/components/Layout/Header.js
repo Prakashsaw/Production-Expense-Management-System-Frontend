@@ -4,13 +4,13 @@ import {
   UserOutlined,
   DownOutlined,
   EditOutlined,
-  PoweroffOutlined,
   LogoutOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import { Dropdown, message, Button, Modal } from "antd";
 import "../../styles/HeaderStyles.css";
 import logo from "../../../src/Images/logo.png";
+import ThemeToggle from "../common/ThemeToggle";
 const Header = () => {
   const [loginUser, setLoginUser] = useState("");
   const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
@@ -100,6 +100,11 @@ const Header = () => {
                   <Button className="nav-item home-btn">
                     <Link to="/user" style={{ color: 'inherit', textDecoration: 'none' }}>Home</Link>
                   </Button>
+                </h6>
+              </li>
+              <li className="nav-item">
+                <h6 className="nav-link" style={{ display: 'flex', alignItems: 'center', marginRight: '12px' }}>
+                  <ThemeToggle />
                 </h6>
               </li>
               <li className="nav-item">

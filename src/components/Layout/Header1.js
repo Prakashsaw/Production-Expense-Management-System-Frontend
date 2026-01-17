@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "antd";
 import "../../styles/HomeHeader.css";
 import logo from "../../../src/Images/logo.png";
+import ThemeToggle from "../common/ThemeToggle";
 
 const Header1 = () => {
   const navigate = useNavigate();
@@ -68,15 +69,19 @@ const Header1 = () => {
                 </>
               )}
               <li className="nav-item">
-                {" "}
-                <h6 className="nav-link ">
-                  <Button className=" nav-item login-btn">
+                <h6 className="nav-link" style={{ display: 'flex', alignItems: 'center', marginRight: '8px', marginBottom: 0 }}>
+                  <ThemeToggle />
+                </h6>
+              </li>
+              <li className="nav-item">
+                <h6 className="nav-link" style={{ marginBottom: 0 }}>
+                  <Button className="nav-item login-btn">
                     <Link to="/login">Login</Link>
                   </Button>
                   <Button className="nav-item register-btn">
                     <Link to="/register">Sign Up</Link>
                   </Button>
-                </h6>{" "}
+                </h6>
               </li>
             </ul>
           </div>
