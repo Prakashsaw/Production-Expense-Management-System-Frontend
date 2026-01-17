@@ -8,6 +8,8 @@ import {
   Table,
   DatePicker,
   Alert,
+  Button,
+  Tag,
 } from "antd";
 import {
   UnorderedListOutlined,
@@ -15,6 +17,8 @@ import {
   EditOutlined,
   DeleteOutlined,
   ExportOutlined,
+  ExclamationCircleOutlined,
+  CloseCircleOutlined,
 } from "@ant-design/icons";
 import Layout from "./../components/Layout/Layout";
 import moment from "moment";
@@ -71,6 +75,9 @@ const HomePage = () => {
   const [viewData, setViewData] = useState(VIEW_TYPES.TABLE);
   const [editable, setEditable] = useState(null);
   const [transactionError, setTransactionError] = useState(null);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [transactionToDelete, setTransactionToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const [form] = Form.useForm();
 
   const { request, loading } = useApiWithMessage();
@@ -136,15 +143,26 @@ const HomePage = () => {
 
   const handleDelete = useCallback(
     (record) => {
-      Modal.confirm({
-        title: "Are you sure you want to delete this transaction?",
-        okText: "Delete",
-        okType: "danger",
-        onOk: () => deleteTransaction(record),
-      });
+      setTransactionToDelete(record);
+      setDeleteModalVisible(true);
     },
-    [deleteTransaction]
+    []
   );
+
+  const confirmDelete = useCallback(async () => {
+    if (!transactionToDelete) return;
+    
+    setDeleting(true);
+    await deleteTransaction(transactionToDelete);
+    setDeleting(false);
+    setDeleteModalVisible(false);
+    setTransactionToDelete(null);
+  }, [transactionToDelete, deleteTransaction]);
+
+  const cancelDelete = useCallback(() => {
+    setDeleteModalVisible(false);
+    setTransactionToDelete(null);
+  }, []);
 
   // Table columns
   const columns = useMemo(() => [
@@ -616,6 +634,147 @@ const HomePage = () => {
                 </button>
               </div>
             </Form>
+          </Modal>
+
+          {/* Delete Transaction Confirmation Modal */}
+          <Modal
+            title={
+              <span style={{ color: "#ff4d4f", display: "flex", alignItems: "center", gap: "8px" }}>
+                <ExclamationCircleOutlined style={{ fontSize: "20px" }} />
+                Delete Transaction
+              </span>
+            }
+            open={deleteModalVisible}
+            onCancel={cancelDelete}
+            footer={[
+              <Button
+                key="cancel"
+                onClick={cancelDelete}
+                disabled={deleting}
+                size="large"
+              >
+                Cancel
+              </Button>,
+              <Button
+                key="delete"
+                type="primary"
+                danger
+                icon={<DeleteOutlined />}
+                onClick={confirmDelete}
+                loading={deleting}
+                size="large"
+              >
+                {deleting ? "Deleting..." : "Delete Transaction"}
+              </Button>,
+            ]}
+            width={550}
+            className="delete-transaction-modal"
+            closable={!deleting}
+            maskClosable={!deleting}
+          >
+            {transactionToDelete && (
+              <div style={{ padding: "10px 0" }}>
+                <div style={{ 
+                  background: "#fff7e6", 
+                  border: "2px solid #ffd591", 
+                  borderRadius: "8px", 
+                  padding: "16px", 
+                  marginBottom: "20px" 
+                }}>
+                  <p style={{ 
+                    margin: 0, 
+                    color: "#d46b08", 
+                    fontSize: "16px", 
+                    fontWeight: 600,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "8px"
+                  }}>
+                    <ExclamationCircleOutlined style={{ fontSize: "18px" }} />
+                    Warning: This action cannot be undone!
+                  </p>
+                  <p style={{ 
+                    margin: "12px 0 0 0", 
+                    color: "#d46b08", 
+                    fontSize: "14px" 
+                  }}>
+                    You are about to permanently delete this transaction. Once deleted, it cannot be recovered.
+                  </p>
+                </div>
+
+                <div style={{ 
+                  background: "#f5f5f5", 
+                  borderRadius: "8px", 
+                  padding: "16px",
+                  border: "1px solid #e0e0e0"
+                }}>
+                  <p style={{ 
+                    fontSize: "15px", 
+                    fontWeight: 600, 
+                    marginBottom: "16px",
+                    color: "#333"
+                  }}>
+                    Transaction Details:
+                  </p>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ color: "#666", fontWeight: 500 }}>Amount:</span>
+                      <span style={{ 
+                        fontSize: "18px", 
+                        fontWeight: 700, 
+                        color: transactionToDelete.type === "Income" ? "#10b981" : "#ef4444"
+                      }}>
+                        ₹{parseFloat(transactionToDelete.amount).toLocaleString()}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ color: "#666", fontWeight: 500 }}>Type:</span>
+                      <Tag
+                        color={transactionToDelete.type === "Income" ? "green" : "red"}
+                        style={{ 
+                          fontSize: "13px",
+                          fontWeight: 600,
+                          padding: "4px 12px"
+                        }}
+                      >
+                        {transactionToDelete.type}
+                      </Tag>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ color: "#666", fontWeight: 500 }}>Category:</span>
+                      <span style={{ fontWeight: 600, color: "#333" }}>
+                        {transactionToDelete.category}
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                      <span style={{ color: "#666", fontWeight: 500 }}>Date:</span>
+                      <span style={{ fontWeight: 600, color: "#333" }}>
+                        {moment(transactionToDelete.date).format("DD MMM YYYY")}
+                      </span>
+                    </div>
+                    {transactionToDelete.refrence && (
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <span style={{ color: "#666", fontWeight: 500 }}>Reference:</span>
+                        <span style={{ fontWeight: 500, color: "#333" }}>
+                          {transactionToDelete.refrence}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <p style={{ 
+                  fontSize: "15px", 
+                  marginTop: "20px", 
+                  marginBottom: "0", 
+                  fontWeight: 500,
+                  color: "#333",
+                  textAlign: "center"
+                }}>
+                  Are you sure you want to delete this transaction?
+                </p>
+              </div>
+            )}
           </Modal>
         </div>
       </Layout>

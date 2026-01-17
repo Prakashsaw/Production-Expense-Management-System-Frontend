@@ -5,12 +5,15 @@ import {
   DownOutlined,
   EditOutlined,
   PoweroffOutlined,
+  LogoutOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
-import { Dropdown, message, Button } from "antd";
+import { Dropdown, message, Button, Modal } from "antd";
 import "../../styles/HeaderStyles.css";
 import logo from "../../../src/Images/logo.png";
 const Header = () => {
   const [loginUser, setLoginUser] = useState("");
+  const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
@@ -19,7 +22,13 @@ const Header = () => {
     }
   }, []);
 
+  // Handle user logout - show confirmation modal
   const logoutHandler = () => {
+    setIsLogoutModalVisible(true);
+  };
+
+  // Confirm logout and perform actual logout
+  const confirmLogout = () => {
     localStorage.removeItem("user");
     message.success("Logout Successfully");
     navigate("/");
@@ -46,16 +55,16 @@ const Header = () => {
     },
     {
       label: (
-        <button
-          className="btn btn-danger"
-          style={{ paddingTop: "2px", paddingBottom: "2px" }}
+        <div 
+          className="logout-menu-item"
           onClick={logoutHandler}
         >
-          Logout
-        </button>
+          <LogoutOutlined />
+          <span>Logout</span>
+        </div>
       ),
       key: "3",
-      icon: <PoweroffOutlined />,
+      danger: true,
     },
   ];
   const menuProps = {
@@ -110,6 +119,43 @@ const Header = () => {
           </div>
         </div>
       </nav>
+
+      {/* Logout Confirmation Modal */}
+      <Modal
+        title={
+          <span style={{ color: "#ff4d4f" }}>
+            <ExclamationCircleOutlined style={{ marginRight: 8, color: "#ff4d4f" }} />
+            Confirm Logout
+          </span>
+        }
+        open={isLogoutModalVisible}
+        onCancel={() => setIsLogoutModalVisible(false)}
+        footer={[
+          <Button
+            key="cancel"
+            onClick={() => setIsLogoutModalVisible(false)}
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="logout"
+            type="primary"
+            danger
+            icon={<LogoutOutlined />}
+            onClick={confirmLogout}
+          >
+            Logout
+          </Button>,
+        ]}
+        width={500}
+        className="logout-confirmation-modal"
+      >
+        <div style={{ padding: "10px 0" }}>
+          <p style={{ fontSize: "15px", marginBottom: "0", fontWeight: 500 }}>
+            Are you sure you want to logout from the Expense Management System?
+          </p>
+        </div>
+      </Modal>
     </>
   );
 };

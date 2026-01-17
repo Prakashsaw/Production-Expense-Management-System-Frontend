@@ -823,3 +823,83 @@ html {
     padding: var(--spacing-md);
   }
 }
+
+/* ============================================
+   DELETE TRANSACTION MODAL STYLING
+   ============================================ */
+
+.delete-transaction-modal .ant-modal-content {
+  border-top: 3px solid #ff4d4f;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 10px 40px rgba(255, 77, 79, 0.2);
+}
+
+.delete-transaction-modal .ant-modal-header {
+  border-bottom: 2px solid #ffccc7;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.delete-transaction-modal .ant-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #ff4d4f;
+}
+
+.delete-transaction-modal .ant-modal-close {
+  color: #ff4d4f;
+  top: 20px;
+  right: 24px;
+}
+
+.delete-transaction-modal .ant-modal-close:hover {
+  color: #ff7875;
+  background-color: #fff1f0;
+}
+
+.delete-transaction-modal .ant-modal-body {
+  padding: 24px;
+}
+
+.delete-transaction-modal .ant-modal-footer {
+  border-top: 1px solid #ffccc7;
+  padding: 16px 24px;
+  background: #fafafa;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+}
+
+.delete-transaction-modal .ant-btn {
+  height: 40px;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  padding: 0 24px;
+  transition: all var(--transition-base);
+}
+
+.delete-transaction-modal .ant-btn-primary.ant-btn-dangerous {
+  background: linear-gradient(135deg, #ff4d4f 0%, #cf1322 100%);
+  border: none;
+  box-shadow: 0 4px 12px rgba(255, 77, 79, 0.4);
+}
+
+.delete-transaction-modal .ant-btn-primary.ant-btn-dangerous:hover {
+  background: linear-gradient(135deg, #ff7875 0%, #ff4d4f 100%);
+  box-shadow: 0 6px 16px rgba(255, 77, 79, 0.6);
+  transform: translateY(-2px);
+}
+
+.delete-transaction-modal .ant-btn-primary.ant-btn-dangerous:active {
+  transform: translateY(0);
+}
+
+.delete-transaction-modal .ant-btn-default {
+  border: 2px solid #d9d9d9;
+  color: #595959;
+}
+
+.delete-transaction-modal .ant-btn-default:hover {
+  border-color: #40a9ff;
+  color: #40a9ff;
+  background-color: #e6f7ff;
+}

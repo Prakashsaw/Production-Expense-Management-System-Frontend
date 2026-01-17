@@ -183,3 +183,66 @@
     margin-right: var(--spacing-xs);
   }
 }
+
+/* Logout Menu Item Styling */
+.logout-menu-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: 100% !important;
+  color: #ff4d4f !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+}
+
+.logout-menu-item .anticon {
+  color: #ff4d4f !important;
+}
+
+.logout-menu-item span {
+  color: #ff4d4f !important;
+}
+
+/* Ant Design Dropdown Menu Item Danger Styling */
+.ant-dropdown-menu-item-danger {
+  color: #ff4d4f !important;
+  padding: 0 !important;
+}
+
+.ant-dropdown-menu-item-danger .logout-menu-item {
+  padding: 4px 12px !important;
+  margin: 0 !important;
+  color: #ff4d4f !important;
+}
+
+.ant-dropdown-menu-item-danger .logout-menu-item .anticon,
+.ant-dropdown-menu-item-danger .logout-menu-item span {
+  color: #ff4d4f !important;
+}
+
+.ant-dropdown-menu-item-danger:hover {
+  background-color: #fff1f0 !important;
+}
+
+.ant-dropdown-menu-item-danger:hover .logout-menu-item {
+  background-color: #fff1f0 !important;
+  color: #ff4d4f !important;
+}
+
+.ant-dropdown-menu-item-danger:hover .logout-menu-item .anticon,
+.ant-dropdown-menu-item-danger:hover .logout-menu-item span {
+  color: #ff4d4f !important;
+}
+
+/* Logout Confirmation Modal */
+.logout-confirmation-modal .ant-modal-content {
+  border-top: 3px solid #ff4d4f;
+}
+
+.logout-confirmation-modal .ant-modal-header {
+  border-bottom: 1px solid #ffccc7;
+}
+
+.logout-confirmation-modal .ant-modal-title {
+  color: #ff4d4f;
+}
