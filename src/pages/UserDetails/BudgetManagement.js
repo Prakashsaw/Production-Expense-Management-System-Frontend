@@ -19,7 +19,6 @@ import {
   Col,
   Alert,
   Switch,
-  Tooltip,
 } from "antd";
 import {
   PlusOutlined,
