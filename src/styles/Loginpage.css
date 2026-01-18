@@ -71,6 +71,12 @@
   transition: all var(--transition-base);
 }
 
+.dark-mode .login-form {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
 .login-form:hover {
   box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35);
   transform: translateY(-5px);
@@ -119,6 +125,12 @@
   border: 1px solid rgba(0, 0, 0, 0.1);
   transition: all var(--transition-base);
   background: rgba(255, 255, 255, 0.9);
+}
+
+.dark-mode .login-form .form-input {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
 }
 
 .login-form .form-input:hover {
@@ -214,6 +226,11 @@
   font-size: 0.875rem;
 }
 
+.dark-mode .login-form .line::before {
+  background: rgba(30, 41, 59, 0.95);
+  color: var(--text-secondary);
+}
+
 .login-page .login-with-google-btn {
   width: 100%;
   transition: all var(--transition-base);
@@ -237,11 +254,21 @@
   justify-content: center;
 }
 
+.dark-mode .login-page .login-with-google-btn {
+  border-color: var(--gray-600);
+  background-color: var(--bg-primary);
+}
+
 .login-page .login-with-google-btn:hover {
   box-shadow: var(--shadow-md);
   border-color: var(--gray-400);
   transform: translateY(-2px);
   background-color: var(--gray-50);
+}
+
+.dark-mode .login-page .login-with-google-btn:hover {
+  border-color: var(--gray-500);
+  background-color: var(--gray-100);
 }
 
 .login-page .login-with-google-btn:active {

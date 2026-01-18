@@ -131,6 +131,12 @@
   overflow: hidden;
 }
 
+.dark-mode .admin-profile-dropdown .ant-dropdown-menu {
+  background: rgba(30, 41, 59, 0.98);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(102, 126, 234, 0.2);
+}
+
 .admin-profile-dropdown .ant-dropdown-menu-item {
   border-radius: 8px;
   padding: 12px 16px;
@@ -146,6 +152,11 @@
   box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
 }
 
+.dark-mode .admin-profile-dropdown .ant-dropdown-menu-item:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
 .admin-profile-dropdown .ant-dropdown-menu-item:active {
   transform: translateX(2px);
 }
@@ -157,6 +168,14 @@
   font-weight: 500;
   color: #1f2937;
   font-size: 15px;
+}
+
+.dark-mode .admin-dropdown-menu-item {
+  color: #ffffff;
+}
+
+.dark-mode .admin-dropdown-menu-item span {
+  color: #ffffff;
 }
 
 .admin-dropdown-icon {
@@ -172,12 +191,28 @@
   transform: scale(1.15) rotate(5deg);
 }
 
+.dark-mode .admin-dropdown-menu-item:hover .admin-dropdown-icon.profile-icon {
+  color: #818cf8;
+}
+
 .admin-dropdown-menu-item:hover .admin-dropdown-icon.deactivate-icon {
   color: #ef4444;
   transform: scale(1.15);
 }
 
+.dark-mode .admin-dropdown-menu-item:hover .admin-dropdown-icon.deactivate-icon {
+  color: #f87171;
+}
+
 .admin-dropdown-menu-item.deactivate-item {
+  color: #ef4444;
+}
+
+.dark-mode .admin-dropdown-menu-item.deactivate-item {
+  color: #ef4444;
+}
+
+.dark-mode .admin-dropdown-menu-item.deactivate-item span {
   color: #ef4444;
 }
 
@@ -186,11 +221,25 @@
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.1) 100%) !important;
 }
 
+.dark-mode .admin-dropdown-menu-item.deactivate-item:hover {
+  color: #dc2626;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.15) 100%) !important;
+}
+
+.dark-mode .admin-dropdown-menu-item.deactivate-item:hover span {
+  color: #dc2626;
+}
+
 .admin-dropdown-divider {
   margin: 8px 0 !important;
   border-color: rgba(102, 126, 234, 0.15) !important;
   height: 1px !important;
   background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.3), transparent) !important;
+}
+
+.dark-mode .admin-dropdown-divider {
+  border-color: rgba(102, 126, 234, 0.3) !important;
+  background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.4), transparent) !important;
 }
 
 /* Enhanced Profile Button */

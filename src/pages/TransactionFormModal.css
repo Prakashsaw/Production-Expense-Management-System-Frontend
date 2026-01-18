@@ -10,6 +10,11 @@
   overflow: hidden;
 }
 
+.dark-mode .transaction-form-modal .ant-modal-content {
+  background: rgba(30, 41, 59, 0.98);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
 .transaction-form-modal .ant-modal-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   border-radius: 16px 16px 0 0;
@@ -74,6 +79,10 @@
   background: #ffffff;
 }
 
+.dark-mode .transaction-form-modal .ant-modal-body {
+  background: rgba(30, 41, 59, 0.98);
+}
+
 /* Modern Form Styling */
 .modern-transaction-form {
   width: 100%;
@@ -99,6 +108,10 @@
   margin-bottom: 8px;
 }
 
+.dark-mode .modern-transaction-form .form-label {
+  color: var(--text-primary);
+}
+
 .modern-transaction-form .form-label .anticon {
   font-size: 16px;
 }
@@ -111,12 +124,32 @@
   border: 2px solid rgba(102, 126, 234, 0.2);
   transition: all 0.2s ease-in-out;
   font-size: 16px;
+  background: #ffffff;
+  color: #1f2937;
+}
+
+.dark-mode .modern-transaction-form .modern-input,
+.dark-mode .modern-transaction-form .modern-select,
+.dark-mode .modern-transaction-form .modern-datepicker {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(102, 126, 234, 0.3);
+  color: var(--text-primary);
+}
+
+.dark-mode .modern-transaction-form .modern-input::placeholder {
+  color: var(--text-secondary);
 }
 
 .modern-transaction-form .modern-input:hover,
 .modern-transaction-form .modern-select:hover,
 .modern-transaction-form .modern-datepicker:hover {
   border-color: rgba(102, 126, 234, 0.4);
+}
+
+.dark-mode .modern-transaction-form .modern-input:hover,
+.dark-mode .modern-transaction-form .modern-select:hover,
+.dark-mode .modern-transaction-form .modern-datepicker:hover {
+  border-color: rgba(102, 126, 234, 0.5);
 }
 
 .modern-transaction-form .modern-input:focus,
@@ -128,6 +161,16 @@
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   outline: none;
+}
+
+.dark-mode .modern-transaction-form .modern-input:focus,
+.dark-mode .modern-transaction-form .modern-input-focused,
+.dark-mode .modern-transaction-form .modern-select:focus,
+.dark-mode .modern-transaction-form .modern-select-focused,
+.dark-mode .modern-transaction-form .modern-datepicker:focus,
+.dark-mode .modern-transaction-form .modern-datepicker-focused {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
 .modern-transaction-form .ant-input-prefix {
@@ -143,16 +186,37 @@
   transition: all 0.2s ease-in-out;
   font-size: 16px;
   padding: 12px;
+  background: #ffffff;
+  color: #1f2937;
+}
+
+.dark-mode .modern-transaction-form .modern-textarea {
+  background: rgba(51, 65, 85, 0.9);
+  border-color: rgba(102, 126, 234, 0.3);
+  color: var(--text-primary);
+}
+
+.dark-mode .modern-transaction-form .modern-textarea::placeholder {
+  color: var(--text-secondary);
 }
 
 .modern-transaction-form .modern-textarea:hover {
   border-color: rgba(102, 126, 234, 0.4);
 }
 
+.dark-mode .modern-transaction-form .modern-textarea:hover {
+  border-color: rgba(102, 126, 234, 0.5);
+}
+
 .modern-transaction-form .modern-textarea:focus {
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   outline: none;
+}
+
+.dark-mode .modern-transaction-form .modern-textarea:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
 }
 
 /* Select Dropdown Styling */
@@ -162,6 +226,14 @@
   height: 48px !important;
   padding: 0 12px !important;
   transition: all 0.2s ease-in-out !important;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+.dark-mode .modern-transaction-form .ant-select-selector {
+  background: rgba(51, 65, 85, 0.9) !important;
+  border-color: rgba(102, 126, 234, 0.3) !important;
+  color: var(--text-primary) !important;
 }
 
 .modern-transaction-form .ant-select-focused .ant-select-selector {
@@ -180,6 +252,10 @@
   color: rgba(0, 0, 0, 0.45);
 }
 
+.dark-mode .modern-transaction-form .ant-select-selection-placeholder {
+  color: var(--text-secondary);
+}
+
 /* DatePicker Styling */
 .modern-transaction-form .ant-picker {
   border-radius: 8px !important;
@@ -187,10 +263,22 @@
   height: 48px !important;
   width: 100% !important;
   transition: all 0.2s ease-in-out !important;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+.dark-mode .modern-transaction-form .ant-picker {
+  background: rgba(51, 65, 85, 0.9) !important;
+  border-color: rgba(102, 126, 234, 0.3) !important;
+  color: var(--text-primary) !important;
 }
 
 .modern-transaction-form .ant-picker:hover {
   border-color: rgba(102, 126, 234, 0.4) !important;
+}
+
+.dark-mode .modern-transaction-form .ant-picker:hover {
+  border-color: rgba(102, 126, 234, 0.5) !important;
 }
 
 .modern-transaction-form .ant-picker-focused {
@@ -201,6 +289,15 @@
 .modern-transaction-form .ant-picker-input > input {
   font-size: 16px !important;
   height: 44px !important;
+  color: #1f2937 !important;
+}
+
+.dark-mode .modern-transaction-form .ant-picker-input > input {
+  color: var(--text-primary) !important;
+}
+
+.dark-mode .modern-transaction-form .ant-picker-input > input::placeholder {
+  color: var(--text-secondary) !important;
 }
 
 /* Form Actions */
@@ -213,6 +310,10 @@
   border-top: 2px solid rgba(102, 126, 234, 0.1);
 }
 
+.dark-mode .modern-transaction-form .form-actions {
+  border-top-color: rgba(102, 126, 234, 0.2);
+}
+
 .modern-transaction-form .cancel-btn-modern {
   border-radius: 8px;
   border: 2px solid rgba(0, 0, 0, 0.2);
@@ -220,11 +321,22 @@
   transition: all 0.2s ease-in-out;
 }
 
+.dark-mode .modern-transaction-form .cancel-btn-modern {
+  border-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+}
+
 .modern-transaction-form .cancel-btn-modern:hover {
   border-color: rgba(0, 0, 0, 0.4);
   background: rgba(0, 0, 0, 0.05);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .modern-transaction-form .cancel-btn-modern:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
 .modern-transaction-form .submit-btn-modern {
@@ -248,13 +360,25 @@
   transition: all 0.2s ease-in-out !important;
 }
 
+.dark-mode .modern-transaction-form .ant-select-item {
+  color: var(--text-primary) !important;
+}
+
 .modern-transaction-form .ant-select-item:hover {
   background: rgba(102, 126, 234, 0.1) !important;
+}
+
+.dark-mode .modern-transaction-form .ant-select-item:hover {
+  background: rgba(102, 126, 234, 0.2) !important;
 }
 
 .modern-transaction-form .ant-select-item-option-selected {
   background: rgba(102, 126, 234, 0.15) !important;
   font-weight: 600;
+}
+
+.dark-mode .modern-transaction-form .ant-select-item-option-selected {
+  background: rgba(102, 126, 234, 0.25) !important;
 }
 
 /* Error Message Styling */
