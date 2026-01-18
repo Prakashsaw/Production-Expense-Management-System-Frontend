@@ -8,6 +8,7 @@ import {
   ExclamationCircleOutlined,
   FolderOutlined,
   DollarOutlined,
+  BellOutlined,
 } from "@ant-design/icons";
 import { Dropdown, message, Button, Modal } from "antd";
 import "../../styles/HeaderStyles.css";
@@ -55,6 +56,11 @@ const Header = () => {
       label: <Link to="/user/budgets">Manage Budgets</Link>,
       key: "2.5",
       icon: <DollarOutlined />,
+    },
+    {
+      label: <Link to="/user/bills">Bill Reminders</Link>,
+      key: "2.6",
+      icon: <BellOutlined />,
     },
     // Only show Change Password for email/password users, not Google users
     ...(isGoogleUser ? [] : [{

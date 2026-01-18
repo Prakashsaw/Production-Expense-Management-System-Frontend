@@ -21,6 +21,7 @@ import ContactUs from "./pages/UserDetails/ContactUs";
 import AboutUs from "./pages/UserDetails/AboutUs";
 import CategoryManagement from "./pages/UserDetails/CategoryManagement";
 import BudgetManagement from "./pages/UserDetails/BudgetManagement";
+import BillManagement from "./pages/UserDetails/BillManagement";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminDashboard/AdminLogin";
 import RequestForAdminAccess from "./pages/AdminDashboard/RequestForAdminAccess";
@@ -68,6 +69,14 @@ function App() {
           element={
             <ProtectedRoutes>
               <BudgetManagement />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/user/bills"
+          element={
+            <ProtectedRoutes>
+              <BillManagement />
             </ProtectedRoutes>
           }
         />
