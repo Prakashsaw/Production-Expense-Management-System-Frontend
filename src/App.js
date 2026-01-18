@@ -19,6 +19,7 @@ import OTPVerifiedSuccess from "./pages/OTPEmailVerification/OTPVerifiedSuccess"
 import ChangePassword from "./pages/UserDetails/ChangePassword";
 import ContactUs from "./pages/UserDetails/ContactUs";
 import AboutUs from "./pages/UserDetails/AboutUs";
+import CategoryManagement from "./pages/UserDetails/CategoryManagement";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminDashboard/AdminLogin";
 import RequestForAdminAccess from "./pages/AdminDashboard/RequestForAdminAccess";
@@ -50,6 +51,14 @@ function App() {
           element={
             <ProtectedRoutes>
               <ChangePassword />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/user/categories"
+          element={
+            <ProtectedRoutes>
+              <CategoryManagement />
             </ProtectedRoutes>
           }
         />

@@ -7,7 +7,6 @@ import {
   Select,
   Table,
   DatePicker,
-  Alert,
   Button,
   Tag,
 } from "antd";
@@ -18,7 +17,6 @@ import {
   DeleteOutlined,
   ExportOutlined,
   ExclamationCircleOutlined,
-  CloseCircleOutlined,
   DollarOutlined,
   SwapOutlined,
   FolderOutlined,
@@ -28,12 +26,27 @@ import {
   PlusOutlined,
   ArrowUpOutlined,
   ArrowDownOutlined,
+  FolderAddOutlined,
+  FolderOpenOutlined,
+  ShoppingOutlined,
+  CarOutlined,
+  HomeOutlined,
+  MedicineBoxOutlined,
+  BookOutlined,
+  CoffeeOutlined,
+  GiftOutlined,
+  CreditCardOutlined,
+  BankOutlined,
+  ShoppingCartOutlined,
+  HeartOutlined,
+  TrophyOutlined,
+  SettingOutlined,
+  AppstoreOutlined,
 } from "@ant-design/icons";
 import Layout from "./../components/Layout/Layout";
 import moment from "moment";
 import Analytics from "../components/Analytics";
 import { useApiWithMessage } from "../hooks/useApi";
-import { useAuth } from "../hooks/useAuth";
 import ErrorAlert from "../components/common/ErrorAlert";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
@@ -61,20 +74,157 @@ const TYPE_OPTIONS = [
   { value: "Expense", label: "EXPENSE" },
 ];
 
-const TRANSACTION_CATEGORIES = [
-  "Income in Salary",
-  "Income in Part Time",
-  "Income in Project",
-  "Income in Freelancing",
-  "Income in Tip",
-  "Expense in Stationary",
-  "Expense in Food",
-  "Expense in Movie",
-  "Expense in Bills",
-  "Expense in Medical",
-  "Expense in Fees",
-  "Expense in TAX",
-];
+// Icon mapping for custom categories
+const ICON_MAP = {
+  FolderOutlined,
+  FolderAddOutlined,
+  FolderOpenOutlined,
+  ShoppingOutlined,
+  CarOutlined,
+  HomeOutlined,
+  MedicineBoxOutlined,
+  BookOutlined,
+  CoffeeOutlined,
+  GiftOutlined,
+  DollarOutlined,
+  CreditCardOutlined,
+  BankOutlined,
+  ShoppingCartOutlined,
+  HeartOutlined,
+  TrophyOutlined,
+  SettingOutlined,
+  AppstoreOutlined,
+};
+
+// Helper function to get icon component by name
+const getIconComponent = (iconName) => {
+  return ICON_MAP[iconName] || FolderOutlined;
+};
+
+// Category Select Component that reacts to type changes
+const CategorySelect = ({ allCategories, categoryMap, getIconComponent, form, value, onChange }) => {
+  const transactionType = Form.useWatch('type', form);
+  
+  // Reset category when type changes if current category is invalid
+  useEffect(() => {
+    if (transactionType && value) {
+      // Check if current category is valid for the new type
+      const catInfo = categoryMap[value] || allCategories.find(cat => cat.name === value);
+      const categoryType = catInfo?.type || (catInfo ? catInfo.type : null);
+      
+      if (categoryType && categoryType !== transactionType && categoryType !== "Both") {
+        // Category is not valid for this type, reset it
+        onChange?.(undefined);
+      }
+    }
+  }, [transactionType, value, categoryMap, allCategories, onChange]);
+  
+  if (!transactionType || transactionType === "") {
+    return (
+      <Select
+        placeholder="Select category"
+        className="modern-select"
+        style={{ height: '48px' }}
+        suffixIcon={<FolderOutlined />}
+        disabled
+        value={value}
+        onChange={onChange}
+        notFoundContent={
+          <div style={{ padding: '12px', textAlign: 'center', color: '#999' }}>
+            Please select transaction type first
+          </div>
+        }
+      >
+        <Select.Option disabled value="">
+          Please select transaction type first
+        </Select.Option>
+      </Select>
+    );
+  }
+  
+  // Filter categories based on transaction type
+  const filteredCategories = allCategories.filter((cat) => {
+    // Get category info from map or use the category itself
+    const catInfo = categoryMap[cat.name] || cat;
+    // Get the type from either the map or the category object
+    const categoryType = catInfo?.type || cat?.type;
+    
+    // Show category if:
+    // 1. Category type matches transaction type exactly
+    // 2. Category type is "Both" (can be used for any transaction type)
+    if (!categoryType) {
+      return false;
+    }
+    
+    return (
+      categoryType === transactionType ||
+      categoryType === "Both"
+    );
+  });
+  
+  return (
+    <Select
+      placeholder="Select category"
+      className="modern-select"
+      style={{ height: '48px' }}
+      suffixIcon={<FolderOutlined />}
+      value={value || undefined}
+      onChange={(val) => {
+        // Ensure we pass undefined instead of empty string
+        onChange?.(val || undefined);
+      }}
+      allowClear
+      notFoundContent={
+        <div style={{ padding: '12px', textAlign: 'center', color: '#999' }}>
+          No categories available for {transactionType}
+        </div>
+      }
+    >
+      {filteredCategories.length === 0 ? (
+        <Select.Option disabled value="">
+          No categories available for {transactionType}
+        </Select.Option>
+      ) : (
+        filteredCategories.map((category) => {
+          // Get category info from map or use the category itself
+          const catInfo = categoryMap[category.name] || category;
+          const iconName = catInfo?.icon || category?.icon || "FolderOutlined";
+          const IconComponent = getIconComponent(iconName);
+          const isCustom = catInfo?.isDefault === false || category?.isDefault === false;
+          const categoryColor = catInfo?.color || category?.color || '#667eea';
+          
+          return (
+            <Select.Option key={category.name} value={category.name}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <IconComponent 
+                  style={{ 
+                    color: categoryColor,
+                    fontSize: '16px'
+                  }} 
+                />
+                <span>{category.name}</span>
+                {isCustom && (
+                  <Tag 
+                    color={categoryColor}
+                    style={{ 
+                      marginLeft: 'auto',
+                      fontSize: '10px',
+                      padding: '0 4px',
+                      height: '18px',
+                      lineHeight: '18px'
+                    }}
+                  >
+                    Custom
+                  </Tag>
+                )}
+              </div>
+            </Select.Option>
+          );
+        })
+      )}
+    </Select>
+  );
+};
 
 const HomePage = () => {
   const [showModal, setShowModal] = useState(false);
@@ -89,6 +239,8 @@ const HomePage = () => {
   const [transactionToDelete, setTransactionToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [form] = Form.useForm();
+  const [allCategories, setAllCategories] = useState([]);
+  const [categoryMap, setCategoryMap] = useState({}); // Map category names to their metadata
 
   const { request, loading } = useApiWithMessage();
 
@@ -121,6 +273,74 @@ const HomePage = () => {
       setAllTransection(result.data.transactions);
     }
   }, [frequency, selectedDate, type, request]);
+
+  // Fetch categories
+  const fetchCategories = useCallback(async () => {
+    const result = await request(
+      {
+        url: "/api/v1/categories/all",
+        method: "GET",
+        requiresAuth: true,
+      },
+      {
+        showSuccess: false,
+        showError: false,
+      }
+    );
+
+    if (result.data?.categories) {
+      const { default: defaultCats, custom: customCats, all: allCats } = result.data.categories;
+      
+      // Create a map of category names to their metadata
+      const catMap = {};
+      
+      // Add default categories to map
+      if (defaultCats && Array.isArray(defaultCats)) {
+        defaultCats.forEach((cat) => {
+          catMap[cat.name] = {
+            name: cat.name,
+            type: cat.type,
+            isDefault: true,
+            icon: "FolderOutlined",
+            color: "#667eea",
+          };
+        });
+      }
+      
+      // Add custom categories to map
+      if (customCats && Array.isArray(customCats)) {
+        customCats.forEach((cat) => {
+          catMap[cat.name] = {
+            name: cat.name,
+            type: cat.type,
+            isDefault: false,
+            icon: cat.icon || "FolderOutlined",
+            color: cat.color || "#667eea",
+            categoryId: cat.categoryId,
+          };
+        });
+      }
+      
+      setCategoryMap(catMap);
+      
+      // Use allCats if available, otherwise combine default and custom
+      if (allCats && Array.isArray(allCats) && allCats.length > 0) {
+        setAllCategories(allCats);
+      } else {
+        const combined = [
+          ...(defaultCats || []),
+          ...(customCats || [])
+        ];
+        setAllCategories(combined);
+      }
+    }
+  }, [request]);
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    fetchCategories();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Fetch transactions when filters change
   useEffect(() => {
@@ -592,6 +812,10 @@ const HomePage = () => {
                     className="modern-select"
                     style={{ height: '48px' }}
                     suffixIcon={<SwapOutlined />}
+                    onChange={() => {
+                      // Reset category when type changes
+                      form.setFieldsValue({ category: undefined });
+                    }}
                   >
                     <Select.Option value="Income">
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -619,21 +843,28 @@ const HomePage = () => {
                     </span>
                   }
                   name="category"
-                  rules={[{ required: true, message: "Please select category!" }]}
+                  rules={[
+                    { 
+                      required: true, 
+                      message: "Please select category!",
+                      validator: (_, value) => {
+                        if (!value || value === '') {
+                          return Promise.reject(new Error("Please select category!"));
+                        }
+                        return Promise.resolve();
+                      }
+                    }
+                  ]}
                   className="form-item-modern"
+                  dependencies={["type"]}
+                  shouldUpdate={(prevValues, currentValues) => prevValues.type !== currentValues.type}
                 >
-                  <Select
-                    placeholder="Select category"
-                    className="modern-select"
-                    style={{ height: '48px' }}
-                    suffixIcon={<FolderOutlined />}
-                  >
-                    {TRANSACTION_CATEGORIES.map((category) => (
-                      <Select.Option key={category} value={category}>
-                        {category}
-                      </Select.Option>
-                    ))}
-                  </Select>
+                  <CategorySelect 
+                    allCategories={allCategories}
+                    categoryMap={categoryMap}
+                    getIconComponent={getIconComponent}
+                    form={form}
+                  />
                 </Form.Item>
 
                 <Form.Item 

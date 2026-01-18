@@ -6,6 +6,7 @@ import {
   EditOutlined,
   LogoutOutlined,
   ExclamationCircleOutlined,
+  FolderOutlined,
 } from "@ant-design/icons";
 import { Dropdown, message, Button, Modal } from "antd";
 import "../../styles/HeaderStyles.css";
@@ -44,10 +45,15 @@ const Header = () => {
       icon: <UserOutlined />,
       link: "/login",
     },
+    {
+      label: <Link to="/user/categories">Manage Categories</Link>,
+      key: "2",
+      icon: <FolderOutlined />,
+    },
     // Only show Change Password for email/password users, not Google users
     ...(isGoogleUser ? [] : [{
       label: <Link to="/user/change-password">Change Password</Link>,
-      key: "2",
+      key: "3",
       icon: <EditOutlined />,
     }]),
     {
@@ -63,7 +69,7 @@ const Header = () => {
           <span>Logout</span>
         </div>
       ),
-      key: "3",
+      key: "4",
       danger: true,
     },
   ];

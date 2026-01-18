@@ -337,9 +337,9 @@ html {
     font-size: 0.75rem;
   }
 
-  /* Hide less important columns on mobile */
-  .modern-table .ant-table-thead > tr > th:nth-child(5),
-  .modern-table .ant-table-tbody > tr > td:nth-child(5) {
+  /* Hide Reference column (6th column) on mobile */
+  .modern-table .ant-table-thead > tr > th:nth-child(6),
+  .modern-table .ant-table-tbody > tr > td:nth-child(6) {
     display: none;
   }
 }
@@ -353,8 +353,9 @@ html {
     font-size: 0.7rem;
   }
 
-  .modern-table .ant-table-thead > tr > th:nth-child(4),
-  .modern-table .ant-table-tbody > tr > td:nth-child(4) {
+  /* Hide Category column (5th column) on very small screens, but keep Type visible */
+  .modern-table .ant-table-thead > tr > th:nth-child(5),
+  .modern-table .ant-table-tbody > tr > td:nth-child(5) {
     display: none;
   }
 }
