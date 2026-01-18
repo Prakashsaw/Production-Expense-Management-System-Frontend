@@ -20,6 +20,7 @@ import ChangePassword from "./pages/UserDetails/ChangePassword";
 import ContactUs from "./pages/UserDetails/ContactUs";
 import AboutUs from "./pages/UserDetails/AboutUs";
 import CategoryManagement from "./pages/UserDetails/CategoryManagement";
+import BudgetManagement from "./pages/UserDetails/BudgetManagement";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminDashboard/AdminLogin";
 import RequestForAdminAccess from "./pages/AdminDashboard/RequestForAdminAccess";
@@ -59,6 +60,14 @@ function App() {
           element={
             <ProtectedRoutes>
               <CategoryManagement />
+            </ProtectedRoutes>
+          }
+        />
+        <Route
+          path="/user/budgets"
+          element={
+            <ProtectedRoutes>
+              <BudgetManagement />
             </ProtectedRoutes>
           }
         />
