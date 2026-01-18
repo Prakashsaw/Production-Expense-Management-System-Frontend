@@ -42,12 +42,14 @@ import {
   TrophyOutlined,
   SettingOutlined,
   AppstoreOutlined,
+  FilterOutlined,
 } from "@ant-design/icons";
 import Layout from "./../components/Layout/Layout";
 import moment from "moment";
 import Analytics from "../components/Analytics";
 import { useApiWithMessage } from "../hooks/useApi";
 import ErrorAlert from "../components/common/ErrorAlert";
+import AdvancedSearchModal from "../components/common/AdvancedSearchModal";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 import "./TransactionFormModal.css";
@@ -241,6 +243,9 @@ const HomePage = () => {
   const [form] = Form.useForm();
   const [allCategories, setAllCategories] = useState([]);
   const [categoryMap, setCategoryMap] = useState({}); // Map category names to their metadata
+  const [advancedSearchVisible, setAdvancedSearchVisible] = useState(false);
+  const [isAdvancedSearch, setIsAdvancedSearch] = useState(false);
+  const [searchLoading, setSearchLoading] = useState(false);
 
   const { request, loading } = useApiWithMessage();
 
@@ -344,8 +349,15 @@ const HomePage = () => {
 
   // Fetch transactions when filters change
   useEffect(() => {
-    getAllTransactions();
+    if (!isAdvancedSearch) {
+      getAllTransactions();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [frequency, selectedDate, type]);
+
+  // Reset advanced search flag when filters change
+  useEffect(() => {
+    setIsAdvancedSearch(false);
   }, [frequency, selectedDate, type]);
 
   // Delete handler - must be defined before columns
@@ -565,10 +577,11 @@ const HomePage = () => {
     [editable, request, form, getAllTransactions]
   );
 
-  // Search handler - Note: This should ideally work with backend, but keeping as is for now
+  // Simple search handler (frontend only)
   const onSearch = useCallback(
     (value) => {
       if (!value) {
+        setIsAdvancedSearch(false);
         getAllTransactions();
         return;
       }
@@ -581,8 +594,53 @@ const HomePage = () => {
       );
 
       setAllTransection(filteredData);
+      setIsAdvancedSearch(false);
     },
     [allTransection, getAllTransactions]
+  );
+
+  // Advanced search handler (backend)
+  const handleAdvancedSearch = useCallback(
+    async (searchParams) => {
+      setSearchLoading(true);
+      setIsAdvancedSearch(true);
+      setTransactionError(null);
+
+      try {
+        const result = await request(
+          {
+            url: "/api/v1/transections/advanced-search",
+            method: "POST",
+            data: searchParams,
+            requiresAuth: true,
+          },
+          {
+            showSuccess: false,
+            showError: true,
+          }
+        );
+
+        setSearchLoading(false);
+
+        if (result.error) {
+          setTransactionError(result.error);
+          return;
+        }
+
+        if (result.data?.transactions) {
+          setAllTransection(result.data.transactions);
+          setAdvancedSearchVisible(false);
+          message.success(
+            `Found ${result.data.transactions.length} transaction(s)`
+          );
+        }
+      } catch (error) {
+        setSearchLoading(false);
+        setTransactionError("Failed to perform advanced search");
+        console.error("Advanced search error:", error);
+      }
+    },
+    [request]
   );
 
   // Export to excel
@@ -680,16 +738,25 @@ const HomePage = () => {
                 onClick={() => setViewData(VIEW_TYPES.ANALYTICS)}
               />
             </div>
-            <div className="search-bar">
+            <div className="search-bar" style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
               <Search
                 placeholder="Search transactions"
                 allowClear
                 onSearch={onSearch}
                 style={{
-                  width: '100%',
+                  flex: 1,
                   minWidth: 150,
                 }}
               />
+              <Button
+                type="default"
+                icon={<FilterOutlined />}
+                onClick={() => setAdvancedSearchVisible(true)}
+                className="advanced-search-btn"
+                title="Advanced Search"
+              >
+                Advanced
+              </Button>
             </div>
             <div>
               <button
@@ -713,6 +780,33 @@ const HomePage = () => {
             </div>
           </div>
           <div className="content">
+            {isAdvancedSearch && (
+              <div style={{ 
+                marginBottom: '16px', 
+                padding: '12px 16px', 
+                background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%)',
+                border: '1px solid rgba(102, 126, 234, 0.3)',
+                borderRadius: 'var(--radius-md)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}>
+                <span style={{ color: 'var(--text-primary)', fontWeight: '500' }}>
+                  <FilterOutlined style={{ marginRight: '8px', color: '#667eea' }} />
+                  Advanced search results ({allTransection.length} transaction{allTransection.length !== 1 ? 's' : ''})
+                </span>
+                <Button
+                  type="link"
+                  onClick={() => {
+                    setIsAdvancedSearch(false);
+                    getAllTransactions();
+                  }}
+                  style={{ padding: 0, height: 'auto' }}
+                >
+                  Clear Search
+                </Button>
+              </div>
+            )}
             {viewData === VIEW_TYPES.TABLE ? (
               <Table 
                 columns={columns} 
@@ -1104,6 +1198,15 @@ const HomePage = () => {
               </div>
             )}
           </Modal>
+
+          {/* Advanced Search Modal */}
+          <AdvancedSearchModal
+            visible={advancedSearchVisible}
+            onCancel={() => setAdvancedSearchVisible(false)}
+            onSearch={handleAdvancedSearch}
+            allCategories={allCategories}
+            loading={searchLoading}
+          />
         </div>
       </Layout>
     </>
