@@ -7,6 +7,10 @@
   overflow: hidden;
 }
 
+.dark-mode .auth-page-wrapper {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+}
+
 .legal-content {
   min-height: 100vh;
   width: 100%;
@@ -59,6 +63,12 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   animation: fadeIn 0.6s ease-out;
   line-height: 1.8;
+}
+
+.dark-mode .legal-document {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
 
 .legal-title {

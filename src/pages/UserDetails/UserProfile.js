@@ -21,6 +21,8 @@ import {
   CloseCircleOutlined,
   DeleteOutlined,
   PlusOutlined,
+  LockOutlined,
+  ExclamationCircleOutlined,
 } from "@ant-design/icons";
 import axios from "axios";
 import { BASE_URL } from "../../utils/baseURL";
@@ -70,6 +72,12 @@ const UserProfile = () => {
   const [secondaryEmailOTPError, setSecondaryEmailOTPError] = useState(null);
   const [tempSecondaryEmail, setTempSecondaryEmail] = useState("");
   const [removingSecondaryEmail, setRemovingSecondaryEmail] = useState(false);
+  const [removeEmailModalVisible, setRemoveEmailModalVisible] = useState(false);
+  const [isGoogleUser, setIsGoogleUser] = useState(false);
+  const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+  const [changingPassword, setChangingPassword] = useState(false);
+  const [passwordChangeError, setPasswordChangeError] = useState(null);
+  const [passwordForm] = Form.useForm();
 
   const navigate = useNavigate();
 
@@ -95,6 +103,12 @@ const UserProfile = () => {
           ...response.data.user,
           gender: response.data.user.gender ?? prev.gender,
         }));
+
+        // Check if user is a Google auth user
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (user && user.registeredWith === "GOOGLE") {
+          setIsGoogleUser(true);
+        }
 
         setLoading(false);
       } catch (error) {
@@ -367,7 +381,11 @@ const UserProfile = () => {
     }
   };
 
-  const handleRemoveSecondaryEmail = async () => {
+  const handleRemoveSecondaryEmailClick = () => {
+    setRemoveEmailModalVisible(true);
+  };
+
+  const handleConfirmRemoveSecondaryEmail = async () => {
     try {
       setRemovingSecondaryEmail(true);
 
@@ -390,6 +408,7 @@ const UserProfile = () => {
           isSecondaryEmailVerified: false,
         };
         setUserData(updatedData);
+        setRemoveEmailModalVisible(false);
         message.success("Secondary email removed successfully!");
       }
     } catch (error) {
@@ -397,6 +416,69 @@ const UserProfile = () => {
     } finally {
       setRemovingSecondaryEmail(false);
     }
+  };
+
+  const handleCancelRemoveEmail = () => {
+    setRemoveEmailModalVisible(false);
+  };
+
+  // Change Password Functions
+  const handleChangePasswordClick = () => {
+    setChangePasswordModalVisible(true);
+    setPasswordChangeError(null);
+    passwordForm.resetFields();
+  };
+
+  const handleChangePasswordSubmit = async (values) => {
+    try {
+      if (values.newPassword.length < 8) {
+        setPasswordChangeError("Password must be at least 8 characters long...!");
+        return;
+      }
+      if (values.newPassword !== values.confirmPassword) {
+        setPasswordChangeError("Password and confirm password should be same...!");
+        return;
+      }
+      if (values.newPassword === values.oldPassword) {
+        setPasswordChangeError("New password should be different from old password...!");
+        return;
+      }
+
+      setChangingPassword(true);
+      setPasswordChangeError(null);
+
+      await axios.post(`${BASE_URL}/api/v1/users/change-password`, values, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem("user")).token
+          }`,
+        },
+      });
+
+      setChangingPassword(false);
+      setPasswordChangeError(null);
+      setChangePasswordModalVisible(false);
+      passwordForm.resetFields();
+      message.success(
+        "Password changed successfully. You will be logged out. Please login with new password."
+      );
+      
+      // Clear local storage and redirect to login
+      setTimeout(() => {
+        localStorage.removeItem("user");
+        navigate("/login");
+      }, 2000);
+    } catch (error) {
+      setChangingPassword(false);
+      setPasswordChangeError(getResponseError(error));
+      message.error("Something went wrong in changing password...!");
+    }
+  };
+
+  const handleCancelChangePassword = () => {
+    setChangePasswordModalVisible(false);
+    setPasswordChangeError(null);
+    passwordForm.resetFields();
   };
 
   const handleCancelSecondaryEmail = () => {
@@ -866,7 +948,7 @@ const UserProfile = () => {
                           size="small"
                           danger
                           icon={<DeleteOutlined />}
-                          onClick={handleRemoveSecondaryEmail}
+                          onClick={handleRemoveSecondaryEmailClick}
                           loading={removingSecondaryEmail}
                           style={{ marginLeft: "8px", padding: 0 }}
                         >
@@ -889,6 +971,30 @@ const UserProfile = () => {
                     )}
                   </div>
                 </div>
+
+                {/* Change Password Section - Only for email/password users */}
+                {!isGoogleUser && (
+                  <div className="detail-row">
+                    <div className="detail-item-horizontal full-width">
+                      <span className="detail-label">
+                        <LockOutlined style={{ marginRight: 8, color: "#667eea" }} />
+                        Password
+                      </span>
+                      <div className="field-display-section">
+                        <Tag color="default" style={{ marginRight: "8px" }}>••••••••</Tag>
+                        <Button
+                          type="link"
+                          size="small"
+                          icon={<EditOutlined />}
+                          onClick={handleChangePasswordClick}
+                          style={{ padding: 0 }}
+                        >
+                          Change Password
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -997,6 +1103,139 @@ const UserProfile = () => {
             </>
           )}
         </div>
+      </Modal>
+
+      {/* Remove Secondary Email Confirmation Modal */}
+      <Modal
+        title={
+          <span style={{ display: "flex", alignItems: "center", gap: "8px", color: "#ff4d4f" }}>
+            <ExclamationCircleOutlined style={{ color: "#ff4d4f" }} />
+            Confirm Removal
+          </span>
+        }
+        open={removeEmailModalVisible}
+        onCancel={handleCancelRemoveEmail}
+        footer={[
+          <Button
+            key="cancel"
+            onClick={handleCancelRemoveEmail}
+          >
+            Cancel
+          </Button>,
+          <Button
+            key="remove"
+            type="primary"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={handleConfirmRemoveSecondaryEmail}
+            loading={removingSecondaryEmail}
+          >
+            Remove Email
+          </Button>,
+        ]}
+        width={500}
+        closable={!removingSecondaryEmail}
+        maskClosable={!removingSecondaryEmail}
+      >
+        <div style={{ padding: "10px 0" }}>
+          <p style={{ fontSize: "15px", marginBottom: "0", fontWeight: 500 }}>
+            Are you sure you want to remove the secondary email <strong>{userData.secondaryEmail}</strong>? 
+            This action cannot be undone.
+          </p>
+        </div>
+      </Modal>
+
+      {/* Change Password Modal */}
+      <Modal
+        title={
+          <span style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <LockOutlined style={{ color: "#667eea" }} />
+            Change Password
+          </span>
+        }
+        open={changePasswordModalVisible}
+        onCancel={handleCancelChangePassword}
+        footer={null}
+        width={500}
+        closable={!changingPassword}
+        maskClosable={!changingPassword}
+      >
+        <Form
+          form={passwordForm}
+          layout="vertical"
+          onFinish={handleChangePasswordSubmit}
+          autoComplete="off"
+          style={{ padding: "20px 0" }}
+        >
+          <Form.Item
+            label="Old Password"
+            name="oldPassword"
+            rules={[
+              {
+                required: true,
+                message: "Please enter your correct old password...!",
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Enter your old password"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item
+            label="New Password"
+            name="newPassword"
+            rules={[
+              {
+                required: true,
+                message: "Password must be a strong password which includes at least one capital letter, small letters and numbers...!",
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Create your new password"
+              size="large"
+            />
+          </Form.Item>
+          <Form.Item
+            label="Re-Enter Password"
+            name="confirmPassword"
+            rules={[
+              {
+                required: true,
+                message: "Enter confirm password",
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined />}
+              placeholder="Re enter your new password"
+              size="large"
+            />
+          </Form.Item>
+          {passwordChangeError && (
+            <Alert
+              message={passwordChangeError}
+              type="error"
+              showIcon
+              style={{ marginBottom: 16 }}
+            />
+          )}
+          <div style={{ display: "flex", justifyContent: "flex-end", gap: "8px" }}>
+            <Button onClick={handleCancelChangePassword} disabled={changingPassword}>
+              Cancel
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={changingPassword}
+            >
+              Change Password
+            </Button>
+          </div>
+        </Form>
       </Modal>
 
       {/* Secondary Email OTP Verification Modal */}

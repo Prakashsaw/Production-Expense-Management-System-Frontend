@@ -3,7 +3,6 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   UserOutlined,
   DownOutlined,
-  EditOutlined,
   LogoutOutlined,
   ExclamationCircleOutlined,
   FolderOutlined,
@@ -37,9 +36,6 @@ const Header = () => {
     navigate("/");
   };
 
-  // Check if user is a Google auth user (they don't have change password option)
-  const isGoogleUser = loginUser && loginUser.registeredWith === "GOOGLE";
-
   const items = [
     {
       label: <Link to="/user/user-profile">My Profile</Link>,
@@ -62,12 +58,6 @@ const Header = () => {
       key: "2.6",
       icon: <BellOutlined />,
     },
-    // Only show Change Password for email/password users, not Google users
-    ...(isGoogleUser ? [] : [{
-      label: <Link to="/user/change-password">Change Password</Link>,
-      key: "3",
-      icon: <EditOutlined />,
-    }]),
     {
       type: "divider",
     },
