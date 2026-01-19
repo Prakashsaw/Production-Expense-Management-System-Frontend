@@ -339,16 +339,6 @@
     margin-bottom: var(--spacing-lg);
   }
 
-  .register-form .ant-input,
-  .register-form .ant-input-password {
-    padding: 12px 14px;
-    font-size: 0.95rem;
-  }
-
-  .register-form .ant-input-affix-wrapper .ant-input {
-    padding: 12px 14px;
-  }
-
 }
 
 @media screen and (max-width: 480px) {
@@ -369,16 +359,6 @@
   .register-form h2 {
     font-size: 1.5rem;
     margin-bottom: var(--spacing-md);
-  }
-
-  .register-form .ant-input,
-  .register-form .ant-input-password {
-    padding: 10px 12px;
-    font-size: 16px; /* Prevents zoom on iOS */
-  }
-
-  .register-form .ant-input-affix-wrapper .ant-input {
-    padding: 10px 12px;
   }
 
   .register-form .button button,

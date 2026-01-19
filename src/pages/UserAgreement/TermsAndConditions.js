@@ -13,6 +13,10 @@ const TermsAndConditions = () => {
             <div className="legal-document">
               <h1 className="legal-title">Terms and Conditions</h1>
               <p className="legal-last-updated">Last Updated: January 2026</p>
+              <p className="legal-text" style={{ fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-lg)' }}>
+                These Terms and Conditions have been updated to reflect new features including custom categories, 
+                budget management, and automated bill reminders.
+              </p>
 
               <section className="legal-section">
                 <h2 className="legal-heading">1. Acceptance of Terms</h2>
@@ -31,7 +35,12 @@ const TermsAndConditions = () => {
                 </p>
                 <ul className="legal-list">
                   <li>Track and manage income and expense transactions</li>
-                  <li>Categorize financial transactions for better organization</li>
+                  <li>Create and manage custom expense and income categories for personalized organization</li>
+                  <li>Set and manage budgets for categories with flexible periods (Monthly, Yearly, Weekly, or Custom)</li>
+                  <li>Receive budget alerts when approaching spending limits</li>
+                  <li>Create and manage bill reminders with automated email notifications</li>
+                  <li>Set up recurring bills with automatic reminder scheduling</li>
+                  <li>Track bill payment status and history</li>
                   <li>View analytics and insights through charts and graphs</li>
                   <li>Filter transactions by date range, type, and category</li>
                   <li>Export transaction data to Excel format</li>
@@ -61,7 +70,10 @@ const TermsAndConditions = () => {
                 </p>
                 <ul className="legal-list">
                   <li>Use the Service only for lawful purposes and in accordance with these Terms</li>
-                  <li>Provide accurate and truthful information when creating transactions</li>
+                  <li>Provide accurate and truthful information when creating transactions, budgets, categories, and bill reminders</li>
+                  <li>Maintain accurate budget amounts and bill due dates</li>
+                  <li>Verify that automated bill reminders are correctly configured and received</li>
+                  <li>Take responsibility for any missed payments or financial consequences resulting from incorrect bill reminder settings</li>
                   <li>Not attempt to gain unauthorized access to the Service or other users' accounts</li>
                   <li>Not use the Service to transmit any malicious code or harmful content</li>
                   <li>Not interfere with or disrupt the Service or servers connected to the Service</li>
@@ -75,9 +87,12 @@ const TermsAndConditions = () => {
                   While we strive to provide accurate financial tracking tools, you acknowledge that:
                 </p>
                 <ul className="legal-list">
-                  <li>You are solely responsible for the accuracy of all financial data you enter</li>
+                  <li>You are solely responsible for the accuracy of all financial data you enter, including transactions, budgets, categories, and bill reminders</li>
+                  <li>Budget calculations and alerts are based on the data you provide and may not reflect actual spending patterns if transactions are not recorded accurately</li>
+                  <li>Bill reminders are automated notifications based on the information you provide; you are responsible for verifying due dates and payment amounts</li>
                   <li>The Service is a tool for tracking and does not provide financial advice</li>
                   <li>We are not responsible for any financial decisions made based on the data in the Service</li>
+                  <li>We are not liable for missed bill payments, late fees, or other financial consequences resulting from incorrect bill reminder settings or system failures</li>
                   <li>You should verify important financial information independently</li>
                 </ul>
               </section>
@@ -90,8 +105,9 @@ const TermsAndConditions = () => {
                 </p>
                 <ul className="legal-list">
                   <li>Regularly backing up your data using the export feature</li>
-                  <li>Maintaining copies of your exported data</li>
+                  <li>Maintaining copies of your exported data, including transactions, budgets, categories, and bill reminders</li>
                   <li>Understanding that data loss may occur if you fail to maintain backups</li>
+                  <li>Note that custom categories, budgets, and bill reminders are part of your account data and should be documented separately if needed</li>
                 </ul>
               </section>
 
@@ -131,12 +147,21 @@ const TermsAndConditions = () => {
               </section>
 
               <section className="legal-section">
-                <h2 className="legal-heading">10. Service Availability</h2>
+                <h2 className="legal-heading">10. Service Availability and Automated Features</h2>
                 <p className="legal-text">
                   We do not guarantee that the Service will be available at all times. The Service 
                   may be unavailable due to maintenance, updates, or circumstances beyond our control. 
                   We are not liable for any loss or damage resulting from Service unavailability.
                 </p>
+                <p className="legal-text">
+                  Regarding automated features:
+                </p>
+                <ul className="legal-list">
+                  <li>Bill reminder emails are sent automatically based on your settings, but delivery is not guaranteed due to email service limitations</li>
+                  <li>Budget alerts are generated based on your transaction data and may not be real-time</li>
+                  <li>You should not rely solely on automated reminders and should maintain your own records of important bills and due dates</li>
+                  <li>We are not responsible for missed notifications due to email delivery failures, spam filters, or incorrect email addresses</li>
+                </ul>
               </section>
 
               <section className="legal-section">

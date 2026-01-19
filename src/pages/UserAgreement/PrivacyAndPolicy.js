@@ -13,6 +13,10 @@ const PrivacyAndPolicy = () => {
             <div className="legal-document">
               <h1 className="legal-title">Privacy Policy</h1>
               <p className="legal-last-updated">Last Updated: January 2026</p>
+              <p className="legal-text" style={{ fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: 'var(--spacing-lg)' }}>
+                This Privacy Policy has been updated to reflect new features including custom categories, 
+                budget management, and automated bill reminders.
+              </p>
 
               <section className="legal-section">
                 <h2 className="legal-heading">1. Introduction</h2>
@@ -53,9 +57,35 @@ const PrivacyAndPolicy = () => {
                   <li>Income and expense transactions</li>
                   <li>Transaction amounts, dates, and categories</li>
                   <li>Transaction descriptions and notes</li>
+                  <li>Custom categories created by you for income and expenses</li>
                 </ul>
 
-                <h3 className="legal-subheading">2.3 Usage Data</h3>
+                <h3 className="legal-subheading">2.3 Budget Management Data</h3>
+                <p className="legal-text">
+                  When you use the budget management features, we collect and store:
+                </p>
+                <ul className="legal-list">
+                  <li>Budget amounts and categories</li>
+                  <li>Budget periods (Monthly, Yearly, Weekly, or Custom)</li>
+                  <li>Budget start and end dates</li>
+                  <li>Budget alert thresholds and preferences</li>
+                  <li>Budget rollover settings</li>
+                </ul>
+
+                <h3 className="legal-subheading">2.4 Bill Reminder Data</h3>
+                <p className="legal-text">
+                  When you use the bill reminder features, we collect and store:
+                </p>
+                <ul className="legal-list">
+                  <li>Bill names, amounts, and due dates</li>
+                  <li>Bill categories (Utilities, Insurance, Rent/Mortgage, etc.)</li>
+                  <li>Recurring bill frequency settings (Monthly, Quarterly, Yearly, Weekly, Bi-weekly, or One-time)</li>
+                  <li>Bill payment status and payment dates</li>
+                  <li>Bill reminder preferences and notification settings</li>
+                  <li>Notes and additional information about bills</li>
+                </ul>
+
+                <h3 className="legal-subheading">2.5 Usage Data</h3>
                 <p className="legal-text">
                   We may collect information about how you access and use the Service, including:
                 </p>
@@ -83,6 +113,9 @@ const PrivacyAndPolicy = () => {
                   <li>To detect, prevent, and address technical issues</li>
                   <li>To send you email verification links and password reset links</li>
                   <li>To send OTP (One-Time Password) for phone verification</li>
+                  <li>To send automated bill reminder emails based on your preferences</li>
+                  <li>To send budget alert notifications when you approach spending limits</li>
+                  <li>To process and manage your custom categories, budgets, and bill reminders</li>
                 </ul>
               </section>
 
@@ -108,10 +141,12 @@ const PrivacyAndPolicy = () => {
               <section className="legal-section">
                 <h2 className="legal-heading">5. Data Storage and Retention</h2>
                 <p className="legal-text">
-                  Your data is stored securely in our database. We retain your personal information 
-                  and transaction data for as long as your account is active or as needed to provide 
-                  you with the Service. If you delete your account, we will delete or anonymize your 
-                  personal information, except where we are required to retain it by law.
+                  Your data is stored securely in our database. We retain your personal information, 
+                  transaction data, custom categories, budgets, and bill reminders for as long as your 
+                  account is active or as needed to provide you with the Service. If you delete your 
+                  account, we will delete or anonymize your personal information and all associated 
+                  data including transactions, budgets, categories, and bill reminders, except where we 
+                  are required to retain it by law.
                 </p>
               </section>
 
@@ -127,9 +162,11 @@ const PrivacyAndPolicy = () => {
 
                 <h3 className="legal-subheading">6.2 Email Services</h3>
                 <p className="legal-text">
-                  We use email services (Nodemailer) to send verification emails, password reset 
-                  links, and other service-related communications. Your email address is shared 
-                  with these services solely for the purpose of sending emails.
+                  We use email services (Brevo/Nodemailer) to send verification emails, password reset 
+                  links, bill reminder notifications, budget alerts, and other service-related communications. 
+                  Your email address is shared with these services solely for the purpose of sending emails. 
+                  Bill reminder emails are sent automatically based on your settings and may include bill 
+                  details such as bill name, amount, and due date.
                 </p>
 
                 <h3 className="legal-subheading">6.3 SMS Services</h3>
@@ -146,12 +183,14 @@ const PrivacyAndPolicy = () => {
                   You have the right to:
                 </p>
                 <ul className="legal-list">
-                  <li>Access your personal information and transaction data</li>
+                  <li>Access your personal information, transaction data, budgets, categories, and bill reminders</li>
                   <li>Update or correct your personal information through your account settings</li>
-                  <li>Delete your account and associated data</li>
+                  <li>Create, modify, or delete custom categories, budgets, and bill reminders</li>
+                  <li>Delete your account and associated data (including all transactions, budgets, categories, and bill reminders)</li>
                   <li>Export your transaction data using the Excel export feature</li>
-                  <li>Opt-out of certain communications (except service-related emails)</li>
+                  <li>Opt-out of certain communications (except service-related emails and critical bill reminders)</li>
                   <li>Request a copy of your data</li>
+                  <li>Disable or modify bill reminder notifications through your account settings</li>
                 </ul>
               </section>
 
