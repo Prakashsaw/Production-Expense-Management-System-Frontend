@@ -1,12 +1,20 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header1 from "../../components/Layout/Header1";
+import Header from "../../components/Layout/Header";
 import Footer from "../../components/Layout/Footer";
 import "./TermsAndConditions.css";
 
 const TermsAndConditions = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+  }, []);
+
   return (
     <>
-      <Header1 />
+      {isLoggedIn ? <Header /> : <Header1 />}
       <div className="auth-page-wrapper">
         <div className="legal-content">
           <div className="legal-container">

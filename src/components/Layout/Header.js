@@ -81,7 +81,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-dark sticky-top">
+      <nav className="navbar navbar-expand-lg bg-dark">
         <Link className="navbar-brand" to="/user">
           <img src={logo} alt="logo" />
           Expense Management System

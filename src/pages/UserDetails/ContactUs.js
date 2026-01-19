@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ContactUs.css";
 import Footer from "../../components/Layout/Footer";
 import Header1 from "../../components/Layout/Header1";
+import Header from "../../components/Layout/Header";
 import { Alert, message } from "antd";
 import { getResponseError } from "../../utils/getResponseError";
 import axios from "axios";
@@ -14,6 +15,12 @@ import {
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 const ContactUs = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    setIsLoggedIn(!!user);
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -76,7 +83,7 @@ const ContactUs = () => {
 
   return (
     <>
-      <Header1 />
+      {isLoggedIn ? <Header /> : <Header1 />}
       <div className="auth-page-wrapper">
         <div className="contact-content">
           <div className="contact-container">

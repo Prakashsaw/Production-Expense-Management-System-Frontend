@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  padding-top: 70px; /* Account for fixed header */
+  box-sizing: border-box;
 }
 
 .layout-content {
@@ -11,9 +13,14 @@
   margin: 0 auto;
   width: 100%;
   animation: fadeIn 0.4s ease-out;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 768px) {
+  .layout-wrapper {
+    padding-top: 65px; /* Slightly smaller header on mobile */
+  }
+
   .layout-content {
     padding: var(--spacing-md);
   }

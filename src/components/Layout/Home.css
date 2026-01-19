@@ -6,6 +6,8 @@
   position: relative;
   overflow: hidden;
   overflow-x: hidden;
+  padding-top: 70px; /* Account for fixed header */
+  box-sizing: border-box;
 }
 
 .home::before {
@@ -190,6 +192,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .home {
+    padding-top: 65px; /* Slightly smaller header on mobile */
+  }
+
   .hero h2 {
     font-size: 2rem;
   }

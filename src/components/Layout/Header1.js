@@ -6,22 +6,16 @@ import logo from "../../../src/Images/logo.png";
 import ThemeToggle from "../common/ThemeToggle";
 
 const Header1 = () => {
-  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  //prevent for loggedIn user
+  // Check if user is logged in (but don't redirect - let pages handle their own logic)
   useEffect(() => {
     const user = localStorage.getItem("user");
-    if (user) {
-      setIsLoggedIn(true);
-      navigate("/user");
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, [navigate]);
+    setIsLoggedIn(!!user);
+  }, []);
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-dark sticky-top">
+      <nav className="navbar navbar-expand-lg bg-dark">
         <Link className="navbar-brand" to="/">
           <img src={logo} alt="logo" />
           Expense Management System
@@ -73,16 +67,27 @@ const Header1 = () => {
                   <ThemeToggle />
                 </h6>
               </li>
-              <li className="nav-item">
-                <h6 className="nav-link" style={{ marginBottom: 0 }}>
-                  <Button className="nav-item login-btn">
-                    <Link to="/login">Login</Link>
-                  </Button>
-                  <Button className="nav-item register-btn">
-                    <Link to="/register">Sign Up</Link>
-                  </Button>
-                </h6>
-              </li>
+              {!isLoggedIn && (
+                <li className="nav-item">
+                  <h6 className="nav-link" style={{ marginBottom: 0 }}>
+                    <Button className="nav-item login-btn">
+                      <Link to="/login">Login</Link>
+                    </Button>
+                    <Button className="nav-item register-btn">
+                      <Link to="/register">Sign Up</Link>
+                    </Button>
+                  </h6>
+                </li>
+              )}
+              {isLoggedIn && (
+                <li className="nav-item">
+                  <h6 className="nav-link" style={{ marginBottom: 0 }}>
+                    <Button className="nav-item home-btn">
+                      <Link to="/user" style={{ color: 'inherit', textDecoration: 'none' }}>Dashboard</Link>
+                    </Button>
+                  </h6>
+                </li>
+              )}
             </ul>
           </div>
         </div>

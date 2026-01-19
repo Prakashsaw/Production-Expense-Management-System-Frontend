@@ -1,76 +1,51 @@
-/* User Profile Wrapper */
+/* User Profile Wrapper - Matching Category/Budget Management style */
 .user-profile-wrapper {
-  min-height: calc(100vh - 200px);
-  width: 100%;
+  min-height: 100vh;
+  padding: 2rem;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  position: relative;
-  overflow-x: hidden;
-  overflow-y: auto;
-  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-top: calc(2rem + 70px); /* Account for fixed header */
+  padding-bottom: 2rem;
+  box-sizing: border-box;
 }
 
-.user-profile-wrapper::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  animation: rotate 20s linear infinite;
-  z-index: 0;
-}
-
-@keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dark-mode .user-profile-wrapper {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
 }
 
 .user-profile-container {
   max-width: 1000px;
   margin: 0 auto;
-  position: relative;
-  z-index: 2;
 }
 
-/* User Profile Card */
+/* User Profile Card - Matching Category/Budget Management style */
 .user-profile-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: fadeInUp 0.6s ease-out;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
   overflow: hidden;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.dark-mode .user-profile-card {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(102, 126, 234, 0.3);
 }
 
 .user-profile-card .ant-card-body {
-  padding: var(--spacing-2xl);
+  padding: 2rem;
 }
 
-/* User Profile Header */
+/* User Profile Header - Matching Category/Budget Management style */
 .user-profile-header {
   display: flex;
   align-items: center;
   gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  padding-bottom: var(--spacing-lg);
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
   border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.dark-mode .user-profile-header {
+  border-bottom-color: rgba(102, 126, 234, 0.3);
 }
 
 .profile-header-icon {
@@ -99,11 +74,22 @@
   background-clip: text;
 }
 
+.dark-mode .profile-header-title {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .profile-header-subtitle {
-  margin: 0;
+  margin: 0.5rem 0 0 0;
   font-size: 1rem;
-  color: var(--text-secondary);
+  color: #64748b;
   font-weight: 400;
+}
+
+.dark-mode .profile-header-subtitle {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* User Profile Content */
@@ -213,11 +199,13 @@
 /* Responsive Design */
 @media screen and (max-width: 992px) {
   .user-profile-wrapper {
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: 1.5rem;
+    padding-top: calc(1.5rem + 70px);
+    padding-bottom: 1.5rem;
   }
 
   .user-profile-card .ant-card-body {
-    padding: var(--spacing-xl);
+    padding: 1.5rem;
   }
 
   .profile-header-title {
@@ -231,11 +219,13 @@
 
 @media screen and (max-width: 768px) {
   .user-profile-wrapper {
-    padding: var(--spacing-md) var(--spacing-sm);
+    padding: 1rem;
+    padding-top: calc(1rem + 65px); /* Smaller header on mobile */
+    padding-bottom: 1rem;
   }
 
   .user-profile-card .ant-card-body {
-    padding: var(--spacing-lg);
+    padding: 1rem;
   }
 
   .profile-header {
@@ -274,11 +264,13 @@
 
 @media screen and (max-width: 480px) {
   .user-profile-wrapper {
-    padding: var(--spacing-sm);
+    padding: 0.75rem;
+    padding-top: calc(0.75rem + 65px); /* Smaller header on mobile */
+    padding-bottom: 0.75rem;
   }
 
   .user-profile-card .ant-card-body {
-    padding: var(--spacing-md);
+    padding: 0.75rem;
   }
 
   .profile-header-title {
