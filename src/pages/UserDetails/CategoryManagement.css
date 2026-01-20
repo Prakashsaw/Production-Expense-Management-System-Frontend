@@ -1,6 +1,9 @@
 .category-management-container {
   min-height: 100vh;
   padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
@@ -25,6 +28,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid rgba(102, 126, 234, 0.1);
@@ -247,7 +252,7 @@
 /* Responsive */
 @media (max-width: 768px) {
   .category-management-container {
-    padding: 1rem;
+    padding: 1.25rem 1rem 1.5rem;
   }
 
   .category-header {
@@ -258,5 +263,45 @@
 
   .categories-grid {
     grid-template-columns: 1fr;
+  }
+
+  .add-category-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .category-title {
+    font-size: 1.7rem;
+  }
+
+  .category-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-management-container {
+    padding: 1rem 0.75rem 1.25rem;
+  }
+
+  .category-management-card {
+    border-radius: 12px;
+  }
+
+  .category-title {
+    font-size: 1.5rem;
+  }
+
+  .category-card {
+    border-radius: 10px;
+  }
+
+  .category-actions {
+    flex-direction: column;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 100%;
   }
 }

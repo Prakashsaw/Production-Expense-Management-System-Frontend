@@ -1,6 +1,9 @@
 .bill-management-container {
   padding: 2rem;
   min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   background: var(--bg-primary);
 }
 
@@ -113,6 +116,14 @@
 /* Filters */
 .bill-filters {
   margin-bottom: 1.5rem;
+}
+
+.bill-filters .ant-space {
+  flex-wrap: wrap;
+}
+
+.bill-filters .ant-space-item {
+  margin-bottom: 0.5rem;
 }
 
 /* Bills Grid */
@@ -288,7 +299,7 @@
 /* Responsive */
 @media screen and (max-width: 768px) {
   .bill-management-container {
-    padding: 1rem;
+    padding: 1.25rem 1rem 1.5rem;
   }
 
   .bill-header {
@@ -324,14 +335,30 @@
     width: 100%;
     min-width: 100%;
   }
+
+  .bill-filters .ant-space {
+    width: 100%;
+  }
+
+  .bill-filters .ant-space-item {
+    flex: 1 1 48%;
+  }
 }
 
 @media screen and (max-width: 480px) {
+  .bill-management-container {
+    padding: 1rem 0.75rem 1.25rem;
+  }
+
   .bill-title {
     font-size: 1.5rem;
   }
 
   .stat-value {
     font-size: 1.5rem;
+  }
+
+  .bill-filters .ant-space-item {
+    flex: 1 1 100%;
   }
 }

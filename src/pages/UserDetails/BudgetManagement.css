@@ -1,6 +1,9 @@
 .budget-management-container {
   min-height: 100vh;
   padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
@@ -15,6 +18,8 @@
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   background: #ffffff;
   padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dark-mode .budget-management-card {
@@ -26,9 +31,19 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1.25rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.budget-header > div:first-child {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .dark-mode .budget-header {
@@ -56,6 +71,10 @@
   color: #64748b;
   margin: 0.5rem 0 0 0;
   font-size: 1rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  line-height: 1.5;
 }
 
 .dark-mode .budget-subtitle {
@@ -69,6 +88,18 @@
   font-weight: 600;
   border-radius: 8px;
   transition: all 0.3s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.budget-header .ant-space {
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 100%;
+}
+
+.budget-header .ant-space-item {
+  flex-shrink: 0;
 }
 
 .add-budget-btn {
@@ -264,13 +295,30 @@
 /* Responsive */
 @media (max-width: 768px) {
   .budget-management-container {
-    padding: 1rem;
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .budget-management-card {
+    padding: 1.5rem 1.25rem;
   }
 
   .budget-header {
     flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+    gap: 1.25rem;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .budget-header > div:first-child {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .budget-header .ant-space {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .budgets-grid {
@@ -281,5 +329,88 @@
     flex-direction: column;
     gap: 1rem;
     align-items: flex-start;
+  }
+
+  .add-budget-btn,
+  .template-btn {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    justify-content: center;
+    flex: 1 1 auto;
+  }
+
+  .budget-title {
+    font-size: 1.7rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .budget-subtitle {
+    font-size: 0.95rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.5;
+  }
+}
+
+@media (max-width: 480px) {
+  .budget-management-container {
+    padding: 1rem 0.75rem 1.25rem;
+  }
+
+  .budget-management-card {
+    padding: 1.25rem 1rem;
+    border-radius: 12px;
+  }
+
+  .budget-header {
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .budget-header .ant-space {
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  .budget-title {
+    font-size: 1.5rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+  }
+
+  .budget-subtitle {
+    font-size: 0.875rem;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+  }
+
+  .add-budget-btn,
+  .template-btn {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  .budgets-grid {
+    gap: 1.25rem;
+  }
+
+  .budget-card {
+    border-radius: 10px;
+  }
+
+  .budget-actions {
+    flex-direction: column;
+  }
+
+  .edit-btn,
+  .delete-btn {
+    width: 100%;
   }
 }
