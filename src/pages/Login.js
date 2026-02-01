@@ -35,6 +35,7 @@ const Login = () => {
       message.success("Login successful");
       localStorage.setItem("user", JSON.stringify({ 
         ...data.user, 
+        refreshToken: data.user.refreshToken || null,
         registeredWith: data.registeredWith || "EMAIL" // Add registeredWith flag
       }));
       navigate("/user");

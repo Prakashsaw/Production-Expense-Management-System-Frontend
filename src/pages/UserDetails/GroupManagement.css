@@ -1,0 +1,223 @@
+/* Group Management Wrapper */
+.group-management-wrapper {
+  width: 100%;
+  padding: var(--spacing-lg);
+  box-sizing: border-box;
+}
+
+/* Group Management Card */
+.group-management-card {
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.dark-mode .group-management-card {
+  background: rgba(30, 41, 59, 0.95);
+  border: 1px solid rgba(102, 126, 234, 0.3);
+}
+
+.group-management-card .ant-card-body {
+  padding: 2rem;
+}
+
+/* Group Management Header */
+.group-management-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid rgba(102, 126, 234, 0.1);
+}
+
+.dark-mode .group-management-header {
+  border-bottom-color: rgba(102, 126, 234, 0.3);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+}
+
+.header-icon {
+  font-size: 3rem;
+  color: #667eea;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.4));
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+}
+
+.header-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark-mode .header-title {
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-subtitle {
+  margin: 0.5rem 0 0 0;
+  font-size: 1rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.dark-mode .header-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Group Tabs */
+.group-tabs .ant-tabs-tab {
+  font-weight: 500;
+}
+
+.group-tabs .ant-tabs-tab-active {
+  color: #667eea;
+}
+
+.group-tabs .ant-tabs-ink-bar {
+  background: #667eea;
+}
+
+/* Group Card */
+.group-card {
+  border-radius: 12px;
+  transition: all var(--transition-base);
+  height: 100%;
+}
+
+.group-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(102, 126, 234, 0.15);
+}
+
+.group-card-content {
+  padding: var(--spacing-xs);
+}
+
+.group-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+}
+
+.group-card-title {
+  margin: var(--spacing-md) 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-card-description {
+  margin: 0 0 var(--spacing-md) 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* View Group Modal */
+.view-group-modal .ant-modal-body {
+  padding: var(--spacing-lg);
+}
+
+.view-group-modal .ant-tabs-content-holder {
+  padding-top: var(--spacing-md);
+}
+
+/* Responsive Design */
+@media screen and (max-width: 992px) {
+  .group-management-wrapper {
+    padding: 1.5rem;
+  }
+
+  .group-management-card .ant-card-body {
+    padding: 1.5rem;
+  }
+
+  .header-title {
+    font-size: 1.75rem;
+  }
+
+  .header-icon {
+    font-size: 2.5rem;
+  }
+
+  .group-management-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .group-management-wrapper {
+    padding: 1rem;
+  }
+
+  .group-management-card .ant-card-body {
+    padding: 1rem;
+  }
+
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-icon {
+    font-size: 2rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .group-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .group-management-wrapper {
+    padding: 0.75rem;
+  }
+
+  .group-management-card .ant-card-body {
+    padding: 0.75rem;
+  }
+
+  .header-title {
+    font-size: 1.25rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.85rem;
+  }
+}

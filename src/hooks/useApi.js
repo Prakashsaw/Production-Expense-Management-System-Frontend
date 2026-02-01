@@ -88,6 +88,12 @@ export const useApiWithMessage = () => {
         return { data: response.data, error: null };
       } catch (err) {
         setLoading(false);
+        
+        // Don't show error message if it's suppressed (token expiration handled by modal)
+        if (err.suppressError) {
+          return { data: null, error: "Token expired" };
+        }
+        
         const errorMessageText = getResponseError(err);
 
         if (showError) {

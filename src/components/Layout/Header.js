@@ -8,6 +8,7 @@ import {
   FolderOutlined,
   DollarOutlined,
   BellOutlined,
+  TeamOutlined,
 } from "@ant-design/icons";
 import { Dropdown, message, Button, Modal } from "antd";
 import "../../styles/HeaderStyles.css";
@@ -57,6 +58,11 @@ const Header = () => {
       label: <Link to="/user/bills">Bill Reminders</Link>,
       key: "2.6",
       icon: <BellOutlined />,
+    },
+    {
+      label: <Link to="/user/groups">Group Expenses</Link>,
+      key: "2.7",
+      icon: <TeamOutlined />,
     },
     {
       type: "divider",

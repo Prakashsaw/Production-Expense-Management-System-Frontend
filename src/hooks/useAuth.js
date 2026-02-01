@@ -41,6 +41,11 @@ export const useAuth = () => {
     navigate("/");
   };
 
+  const getRefreshToken = () => {
+    const user = getUser();
+    return user?.refreshToken || null;
+  };
+
   const getAuthHeaders = () => {
     const token = getToken();
     return token
@@ -50,12 +55,28 @@ export const useAuth = () => {
       : {};
   };
 
+  const updateToken = (newToken, newRefreshToken = null) => {
+    const user = getUser();
+    if (user) {
+      const updatedUser = {
+        ...user,
+        token: newToken,
+      };
+      if (newRefreshToken) {
+        updatedUser.refreshToken = newRefreshToken;
+      }
+      setUser(updatedUser);
+    }
+  };
+
   return {
     getUser,
     getToken,
+    getRefreshToken,
     isAuthenticated,
     setUser,
     updateUser,
+    updateToken,
     logout,
     getAuthHeaders,
   };

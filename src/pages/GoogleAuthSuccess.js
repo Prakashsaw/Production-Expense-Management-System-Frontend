@@ -13,6 +13,7 @@ const GoogleAuthSuccess = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
+    const refreshToken = urlParams.get("refreshToken");
     const name = urlParams.get("name");
     const expenseAppUserId = urlParams.get("expenseAppUserId");
     const isVerified = urlParams.get("isVerified");
@@ -25,6 +26,7 @@ const GoogleAuthSuccess = () => {
           isVerified, 
           name, 
           token,
+          refreshToken: refreshToken || null,
           registeredWith: "GOOGLE" // Flag to identify Google auth users
         })
       );

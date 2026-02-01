@@ -1,0 +1,103 @@
+/* Token Expired Modal */
+.token-expired-modal .ant-modal-content {
+  border-top: 3px solid #ff4d4f;
+  border-radius: var(--radius-xl);
+  box-shadow: 0 10px 40px rgba(255, 77, 79, 0.2);
+}
+
+.token-expired-modal .ant-modal-header {
+  border-bottom: 2px solid #ffccc7;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, #fff5f5 0%, #ffffff 100%);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+}
+
+.token-expired-modal .ant-modal-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.token-expired-modal .ant-modal-body {
+  padding: 24px;
+}
+
+.token-expired-content {
+  padding: 8px 0;
+}
+
+.token-expired-actions {
+  margin-top: 8px;
+}
+
+.refresh-token-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  height: 48px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transition: all var(--transition-base);
+}
+
+.refresh-token-button:hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.login-again-button {
+  border: 2px solid #d9d9d9;
+  color: #595959;
+  height: 48px;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all var(--transition-base);
+}
+
+.login-again-button:hover {
+  border-color: #40a9ff;
+  color: #40a9ff;
+  background-color: #e6f7ff;
+  transform: translateY(-2px);
+}
+
+.token-expired-info {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f0f0f0;
+}
+
+.dark-mode .token-expired-modal .ant-modal-content {
+  background-color: var(--bg-primary);
+  border-top-color: #ff4d4f;
+}
+
+.dark-mode .token-expired-modal .ant-modal-header {
+  background: linear-gradient(135deg, rgba(255, 77, 79, 0.1) 0%, var(--bg-primary) 100%);
+  border-bottom-color: rgba(255, 77, 79, 0.3);
+}
+
+.dark-mode .token-expired-info {
+  border-top-color: var(--gray-600);
+}
+
+.dark-mode .token-expired-info p {
+  color: var(--text-secondary);
+}
+
+/* Responsive */
+@media screen and (max-width: 480px) {
+  .token-expired-modal {
+    width: 95% !important;
+  }
+
+  .token-expired-modal .ant-modal-body {
+    padding: 16px;
+  }
+
+  .refresh-token-button,
+  .login-again-button {
+    height: 44px;
+    font-size: 14px;
+  }
+}

@@ -22,16 +22,19 @@ import AboutUs from "./pages/UserDetails/AboutUs";
 import CategoryManagement from "./pages/UserDetails/CategoryManagement";
 import BudgetManagement from "./pages/UserDetails/BudgetManagement";
 import BillManagement from "./pages/UserDetails/BillManagement";
+import GroupManagement from "./pages/UserDetails/GroupManagement";
 import AdminDashboard from "./pages/AdminDashboard/AdminDashboard";
 import AdminLogin from "./pages/AdminDashboard/AdminLogin";
 import RequestForAdminAccess from "./pages/AdminDashboard/RequestForAdminAccess";
 import GoogleAuthSuccess from "./pages/GoogleAuthSuccess";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import TokenManager from "./components/common/TokenManager";
 
 function App() {
   return (
     <ThemeProvider>
-      <Routes>
+      <TokenManager>
+        <Routes>
         <Route
           path="/user"
           element={
@@ -80,6 +83,14 @@ function App() {
             </ProtectedRoutes>
           }
         />
+        <Route
+          path="/user/groups"
+          element={
+            <ProtectedRoutes>
+              <GroupManagement />
+            </ProtectedRoutes>
+          }
+        />
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/signup-success" element={<SignUpSuccess />} />
@@ -119,7 +130,8 @@ function App() {
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         {/* if path is not correct then navigate to page not found page */}
         <Route path="*" element={<PageNotFound />} />
-      </Routes>
+        </Routes>
+      </TokenManager>
     </ThemeProvider>
   );
 }
